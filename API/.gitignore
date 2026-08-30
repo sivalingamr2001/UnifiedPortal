@@ -1,13 +1,13 @@
 ﻿# Ignore generated .NET build artifacts
-API/Web/obj/
-API/Web/bin/
-API/DynamicTransaction/obj/
-API/DynamicTransaction/bin/
-API/**/obj/
-API/**/bin/
-API/**/*.assets.cache
-API/**/*.AssemblyInfo.cs
-API/**/*.AssemblyInfoInputs.cache
-API/**/*.AssemblyReference.cache
-API/**/*.GeneratedMSBuildEditorConfig.editorconfig
-API/**/*.cache
+Web/obj/
+Web/bin/
+DynamicTransaction/obj/
+DynamicTransaction/bin/
+**/obj/
+**/bin/
+**/*.assets.cache
+**/*.AssemblyInfo.cs
+**/*.AssemblyInfoInputs.cache
+**/*.AssemblyReference.cache
+**/*.GeneratedMSBuildEditorConfig.editorconfig
+**/*.cache
