@@ -37,7 +37,7 @@ const getDefaultModuleId = (role: string | null, moduleList: ModuleModel[]) => {
 
   const normalizedRole = (role ?? "").trim().toLowerCase();
 
-  if (normalizedRole === "superadmin") {
+  if (normalizedRole === "superAdmin") {
     const adminModule =
       moduleList.find((module) => {
         const moduleKey = (module.moduleCode ?? module.moduleName ?? "")
