@@ -39,10 +39,7 @@ try
         var connectionString = oracleService.GetConnectionString();
 
         builder.Services.AddDynamicTransaction(connectionString);
-
         builder.Services.AddScoped<OracleService>();
-
-        builder.Services.AddDynamicTransaction(connectionString);
     }
     else
     {
@@ -50,6 +47,10 @@ try
         builder.Services.AddMySqlDynamicTransaction(connectionString);
     }
 
+    builder.Services.AddScoped<JanaticsAdminPortal.API.Repositories.UserRepository>();
+    builder.Services.AddScoped<JanaticsAdminPortal.API.Repositories.SessionRepository>();
+    builder.Services.AddScoped<JanaticsAdminPortal.API.Repositories.RoleRepository>();
+    builder.Services.AddScoped<JanaticsAdminPortal.API.Repositories.OrgUnitRepository>();
     builder.Services.AddScoped<CustomerComplaintApi.Data.DbHelper>();
 
     var app = builder.Build();
