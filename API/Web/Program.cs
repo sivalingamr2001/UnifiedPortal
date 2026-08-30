@@ -31,8 +31,25 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("DefaultConnection connection string not found.");
-    builder.Services.AddMySqlDynamicTransaction(connectionString);
+    var provider = builder.Configuration["ConnectionStrings:Provider"];
+
+    if (string.Equals(provider, "Oracle", StringComparison.OrdinalIgnoreCase))
+    {
+        var oracleService = new OracleService();
+        var connectionString = oracleService.GetConnectionString();
+
+        builder.Services.AddDynamicTransaction(connectionString);
+
+        builder.Services.AddScoped<OracleService>();
+
+        builder.Services.AddDynamicTransaction(connectionString);
+    }
+    else
+    {
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("DefaultConnection connection string not found.");
+        builder.Services.AddMySqlDynamicTransaction(connectionString);
+    }
+
     builder.Services.AddScoped<CustomerComplaintApi.Data.DbHelper>();
 
     var app = builder.Build();

@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using MySqlConnector;
 using DynamicTransaction.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace CustomerComplaintApi.Data
 {
@@ -20,10 +21,13 @@ namespace CustomerComplaintApi.Data
     public class DbHelper
     {
         private readonly IDbConnectionFactory _connectionFactory;
+        public bool IsOracle { get; }
 
-        public DbHelper(IDbConnectionFactory connectionFactory)
+        public DbHelper(IDbConnectionFactory connectionFactory, IConfiguration configuration)
         {
             _connectionFactory = connectionFactory;
+            var provider = configuration["ConnectionStrings:Provider"];
+            IsOracle = string.Equals(provider, "Oracle", StringComparison.OrdinalIgnoreCase);
         }
 
         public DataTable ExecuteQuery(string sql, OracleParam[] parameters)
@@ -45,7 +49,9 @@ namespace CustomerComplaintApi.Data
                         foreach (var p in parameters)
                         {
                             var param = cmd.CreateParameter();
-                            param.ParameterName = p.Name;
+                            // If Oracle, parameter names use the name without prefixes.
+                            // If MySQL, parameter names use @ prefix.
+                            param.ParameterName = IsOracle ? p.Name.Replace("@", "").Replace(":", "") : p.Name;
                             param.Value = p.Value ?? DBNull.Value;
                             cmd.Parameters.Add(param);
                         }

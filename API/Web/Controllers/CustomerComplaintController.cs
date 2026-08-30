@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Data;
 using Microsoft.AspNetCore.Mvc;
 using CustomerComplaintApi.Data;
@@ -34,14 +36,71 @@ namespace CustomerComplaintApi.Controllers
             DateTime from = DateTime.Parse(fromDate);
             DateTime to = DateTime.Parse(toDate);
 
-            var ps = new[]
-            {
-                new OracleParam("orgId", orgId),
-                new OracleParam("fromDate", from),
-                new OracleParam("toDate", to)
-            };
+            string sql;
+            OracleParam[] ps;
 
-            var sql = @"WITH periods AS (
+            if (_db.IsOracle)
+            {
+                ps = new[]
+                {
+                    new OracleParam("orgId", orgId),
+                    new OracleParam("fromDate", from),
+                    new OracleParam("toDate", to)
+                };
+
+                sql = @"WITH periods AS (
+    SELECT
+        TRUNC(:fromDate) AS cur_start,
+        TRUNC(:toDate) AS cur_end,
+        TRUNC(:fromDate) - 7 AS prev_start,
+        TRUNC(:toDate) - 7 AS prev_end
+    FROM dual
+),
+base AS (
+    SELECT c.CCRDT, c.CLOSE_DT, c.TARGET_COMP_DT, c.ITEM_NO, c.WEEK_SALE_QTY,
+           CASE WHEN TRUNC(c.CCRDT) >= p.cur_start  AND TRUNC(c.CCRDT) <= p.cur_end  THEN 'CUR'
+                WHEN TRUNC(c.CCRDT) >= p.prev_start AND TRUNC(c.CCRDT) <= p.prev_end THEN 'PREV'
+           END AS PERIOD
+    FROM JAN_SERVICE_CCR_zoho c
+    CROSS JOIN periods p
+    WHERE c.ORG_ID = :orgId
+),
+item_orders AS (
+    -- Pre-calculate distinct item lists per period and join max quantities
+    SELECT 
+        b.PERIOD,
+        SUM(io.QTY) AS TOTAL_DELIVERED
+    FROM (SELECT DISTINCT PERIOD, ITEM_NO FROM base WHERE PERIOD IS NOT NULL) b
+    JOIN (
+        SELECT ITEM_NO, MAX(WEEK_SALE_QTY) AS QTY
+        FROM JAN_SERVICE_CCR_zoho
+        WHERE ORG_ID = :orgId
+        GROUP BY ITEM_NO
+    ) io ON b.ITEM_NO = io.ITEM_NO
+    GROUP BY b.PERIOD
+)
+SELECT
+    b.PERIOD,
+    COUNT(*)                                                                                    AS TOTAL_COMPLAINTS,
+    SUM(CASE WHEN b.CLOSE_DT IS NOT NULL AND TRUNC(b.CLOSE_DT) <= b.TARGET_COMP_DT THEN 1 ELSE 0 END)    AS SOLVED_WITHIN_SLA,
+    SUM(CASE WHEN b.CLOSE_DT IS NULL AND (b.TARGET_COMP_DT IS NULL OR b.TARGET_COMP_DT >= TRUNC(SYSDATE)) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
+    SUM(CASE WHEN b.CLOSE_DT IS NULL AND b.TARGET_COMP_DT < TRUNC(SYSDATE) THEN 1 ELSE 0 END)     AS OPEN_BREACHED_SLA,
+    NVL(io.TOTAL_DELIVERED, 0)                                                                   AS ORDERS_DELIVERED
+FROM base b
+LEFT JOIN item_orders io ON b.PERIOD = io.PERIOD
+WHERE b.PERIOD IS NOT NULL
+GROUP BY b.PERIOD, io.TOTAL_DELIVERED";
+            }
+            else
+            {
+                ps = new[]
+                {
+                    new OracleParam("orgId", orgId),
+                    new OracleParam("fromDate", from),
+                    new OracleParam("toDate", to)
+                };
+
+                sql = @"WITH periods AS (
     SELECT
         DATE(@fromDate) AS cur_start,
         DATE(@toDate) AS cur_end,
@@ -81,6 +140,7 @@ FROM base b
 LEFT JOIN item_orders io ON b.PERIOD = io.PERIOD
 WHERE b.PERIOD IS NOT NULL
 GROUP BY b.PERIOD, io.TOTAL_DELIVERED";
+            }
 
             DataTable dt = _db.ExecuteQuery(sql, ps);
             var byPeriod = new Dictionary<string, DataRow>();
@@ -149,40 +209,82 @@ GROUP BY b.PERIOD, io.TOTAL_DELIVERED";
             if (string.IsNullOrEmpty(fromDate) || string.IsNullOrEmpty(toDate))
                 return BadRequest("From and To dates are required.");
 
-            var ps = new[]
+            string sql;
+            string ordersSql;
+            OracleParam[] ps;
+
+            if (_db.IsOracle)
             {
-                new OracleParam("orgId", orgId),
-                new OracleParam("fromDate", DateTime.Parse(fromDate)),
-                new OracleParam("toDate", DateTime.Parse(toDate))
-            };
+                ps = new[]
+                {
+                    new OracleParam("orgId", orgId),
+                    new OracleParam("fromDate", DateTime.Parse(fromDate)),
+                    new OracleParam("toDate", DateTime.Parse(toDate))
+                };
 
-            var sql = @"
-                SELECT
-                    DATE(CCRDT)                                                                               AS DAY,
-                    SUM(CASE WHEN CLOSE_DT IS NOT NULL AND DATE(CLOSE_DT) <= TARGET_COMP_DT THEN 1 ELSE 0 END)        AS SOLVED_WITHIN_SLA,
-                    SUM(CASE WHEN CLOSE_DT IS NULL AND (TARGET_COMP_DT IS NULL OR TARGET_COMP_DT >= CURDATE()) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
-                    SUM(CASE WHEN CLOSE_DT IS NULL AND TARGET_COMP_DT < CURDATE() THEN 1 ELSE 0 END)       AS OPEN_BREACHED_SLA,
-                    COUNT(*)                                                                                    AS TOTAL_COMPLAINTS
-                FROM JAN_SERVICE_CCR_zoho
-                WHERE ORG_ID = @orgId
-                  AND CCRDT >=  DATE(@fromDate)
-                  AND CCRDT <= DATE(@toDate)
-                GROUP BY DATE(CCRDT)
-                ORDER BY DATE(CCRDT)";
+                sql = @"
+                    SELECT
+                        TRUNC(CCRDT)                                                                              AS DAY,
+                        SUM(CASE WHEN CLOSE_DT IS NOT NULL AND TRUNC(CLOSE_DT) <= TARGET_COMP_DT THEN 1 ELSE 0 END)        AS SOLVED_WITHIN_SLA,
+                        SUM(CASE WHEN CLOSE_DT IS NULL AND (TARGET_COMP_DT IS NULL OR TARGET_COMP_DT >= TRUNC(SYSDATE)) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
+                        SUM(CASE WHEN CLOSE_DT IS NULL AND TARGET_COMP_DT < TRUNC(SYSDATE) THEN 1 ELSE 0 END)       AS OPEN_BREACHED_SLA,
+                        COUNT(*)                                                                                    AS TOTAL_COMPLAINTS
+                    FROM JAN_SERVICE_CCR_zoho
+                    WHERE ORG_ID = :orgId
+                      AND CCRDT >=  TRUNC(:fromDate)
+                      AND CCRDT <= TRUNC(:toDate)
+                    GROUP BY TRUNC(CCRDT)
+                    ORDER BY TRUNC(CCRDT)";
 
-            DataTable dt = _db.ExecuteQuery(sql, ps);
+                ordersSql = @"
+                    SELECT NVL(SUM(QTY), 0) AS ORDERS_DELIVERED
+                    FROM
+                    (
+                        SELECT DISTINCT ITEM_NO,
+                               WEEK_SALE_QTY AS QTY
+                        FROM JAN_SERVICE_CCR_zoho
+                        WHERE ORG_ID = :orgId
+                          AND TRUNC(CCRDT) >= TRUNC(:fromDate)
+                          AND TRUNC(CCRDT) <= TRUNC(:toDate)
+                    ) t";
+            }
+            else
+            {
+                ps = new[]
+                {
+                    new OracleParam("orgId", orgId),
+                    new OracleParam("fromDate", DateTime.Parse(fromDate)),
+                    new OracleParam("toDate", DateTime.Parse(toDate))
+                };
 
-            var ordersSql = @"
-                SELECT COALESCE(SUM(QTY), 0) AS ORDERS_DELIVERED
-                FROM
-                (
-                    SELECT DISTINCT ITEM_NO,
-                           WEEK_SALE_QTY AS QTY
+                sql = @"
+                    SELECT
+                        DATE(CCRDT)                                                                               AS DAY,
+                        SUM(CASE WHEN CLOSE_DT IS NOT NULL AND DATE(CLOSE_DT) <= TARGET_COMP_DT THEN 1 ELSE 0 END)        AS SOLVED_WITHIN_SLA,
+                        SUM(CASE WHEN CLOSE_DT IS NULL AND (TARGET_COMP_DT IS NULL OR TARGET_COMP_DT >= CURDATE()) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
+                        SUM(CASE WHEN CLOSE_DT IS NULL AND TARGET_COMP_DT < CURDATE() THEN 1 ELSE 0 END)       AS OPEN_BREACHED_SLA,
+                        COUNT(*)                                                                                    AS TOTAL_COMPLAINTS
                     FROM JAN_SERVICE_CCR_zoho
                     WHERE ORG_ID = @orgId
-                      AND DATE(CCRDT) >= DATE(@fromDate)
-                      AND DATE(CCRDT) <= DATE(@toDate)
-                ) t";
+                      AND CCRDT >=  DATE(@fromDate)
+                      AND CCRDT <= DATE(@toDate)
+                    GROUP BY DATE(CCRDT)
+                    ORDER BY DATE(CCRDT)";
+
+                ordersSql = @"
+                    SELECT COALESCE(SUM(QTY), 0) AS ORDERS_DELIVERED
+                    FROM
+                    (
+                        SELECT DISTINCT ITEM_NO,
+                               WEEK_SALE_QTY AS QTY
+                        FROM JAN_SERVICE_CCR_zoho
+                        WHERE ORG_ID = @orgId
+                          AND DATE(CCRDT) >= DATE(@fromDate)
+                          AND DATE(CCRDT) <= DATE(@toDate)
+                    ) t";
+            }
+
+            DataTable dt = _db.ExecuteQuery(sql, ps);
             int weekOrders = DbHelper.Val<int>(_db.ExecuteQuery(ordersSql, ps).Rows[0], "ORDERS_DELIVERED");
 
             var points = new List<ComplaintTrendPoint>();
@@ -222,56 +324,167 @@ GROUP BY b.PERIOD, io.TOTAL_DELIVERED";
             page = page < 1 ? 1 : page;
             pageSize = pageSize < 1 ? 10 : pageSize;
 
-            var baseSql = @"
-                WITH item_orders AS (
-                    SELECT ITEM_NO, MAX(WEEK_SALE_QTY) AS ORDERS_DELIVERED
-                    FROM JAN_SERVICE_CCR_zoho
-                    WHERE ORG_ID = @orgId AND DATE(CCRDT) >= DATE(@fromDate) AND DATE(CCRDT) <= DATE(@toDate)
-                    GROUP BY ITEM_NO
-                ),
-                per_item AS (
-                    SELECT
-                        c.ITEM_NO,
-                        MAX(c.COMP_CUS_NAME)                                                                      AS COMP_CUS_NAME,
-                        MAX(c.DESCRIPTION)                                                                       AS PRODUCT_DESCRIPTION,
-                        MAX(c.CUSREGION)                                                                          AS CUSREGION,
-                        COUNT(*)                                                                                  AS TOTAL_COMPLAINTS,
-                        SUM(CASE WHEN c.CLOSE_DT IS NOT NULL AND c.CLOSE_DT <= c.TARGET_COMP_DT THEN 1 ELSE 0 END) AS SOLVED_WITHIN_SLA,
-                        SUM(CASE WHEN c.CLOSE_DT IS NULL AND (c.TARGET_COMP_DT IS NULL OR c.TARGET_COMP_DT >= CURDATE()) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
-                        SUM(CASE WHEN c.CLOSE_DT IS NULL AND c.TARGET_COMP_DT < CURDATE() THEN 1 ELSE 0 END)  AS OPEN_BREACHED_SLA
-                    FROM JAN_SERVICE_CCR_zoho c
-                    WHERE c.ORG_ID = @orgId AND DATE(c.CCRDT) >= DATE(@fromDate) AND DATE(c.CCRDT) <= DATE(@toDate)
-                    GROUP BY c.ITEM_NO
-                )
-                SELECT p.ITEM_NO, p.COMP_CUS_NAME, p.CUSREGION, p.PRODUCT_DESCRIPTION, COALESCE(io.ORDERS_DELIVERED, 0) AS ORDERS_DELIVERED,
-                       p.TOTAL_COMPLAINTS, p.SOLVED_WITHIN_SLA, p.OPEN_WITHIN_SLA, p.OPEN_BREACHED_SLA
-                FROM per_item p
-                LEFT JOIN item_orders io ON io.ITEM_NO = p.ITEM_NO";
-
-            var ps = new[]
-            {
-                new OracleParam("orgId", orgId),
-                new OracleParam("fromDate", DateTime.Parse(fromDate)),
-                new OracleParam("toDate", DateTime.Parse(toDate))
-            };
-
-            int totalCount = Convert.ToInt32(_db.ExecuteQuery($"SELECT COUNT(*) AS CNT FROM ({baseSql}) t", ps).Rows[0]["CNT"]);
+            string baseSql;
+            string pagedSql;
+            string totalsSql;
+            OracleParam[] ps;
+            OracleParam[] pagedPs;
 
             int startRow = (page - 1) * pageSize;
-            var pagedSql = $@"
-                SELECT t.* FROM ({baseSql}) t
-                ORDER BY t.TOTAL_COMPLAINTS DESC
-                LIMIT @pageSize OFFSET @offset";
 
-            var pagedPs = new[]
+            if (_db.IsOracle)
             {
-                new OracleParam("orgId", orgId),
-                new OracleParam("fromDate", DateTime.Parse(fromDate)),
-                new OracleParam("toDate", DateTime.Parse(toDate)),
-                new OracleParam("pageSize", pageSize),
-                new OracleParam("offset", startRow)
-            };
+                baseSql = @"
+                    WITH item_orders AS (
+                        SELECT ITEM_NO, MAX(WEEK_SALE_QTY) AS ORDERS_DELIVERED
+                        FROM JAN_SERVICE_CCR_zoho
+                        WHERE ORG_ID = :orgId AND TRUNC(CCRDT) >= TRUNC(:fromDate) AND TRUNC(CCRDT) <= TRUNC(:toDate)
+                        GROUP BY ITEM_NO
+                    ),
+                    per_item AS (
+                        SELECT
+                            c.ITEM_NO,
+                            MAX(c.COMP_CUS_NAME)                                                                      AS COMP_CUS_NAME,
+                            MAX(c.DESCRIPTION)                                                                       AS PRODUCT_DESCRIPTION,
+                            MAX(c.CUSREGION)                                                                          AS CUSREGION,
+                            COUNT(*)                                                                                  AS TOTAL_COMPLAINTS,
+                            SUM(CASE WHEN c.CLOSE_DT IS NOT NULL AND c.CLOSE_DT <= c.TARGET_COMP_DT THEN 1 ELSE 0 END) AS SOLVED_WITHIN_SLA,
+                            SUM(CASE WHEN c.CLOSE_DT IS NULL AND (c.TARGET_COMP_DT IS NULL OR c.TARGET_COMP_DT >= TRUNC(SYSDATE)) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
+                            SUM(CASE WHEN c.CLOSE_DT IS NULL AND c.TARGET_COMP_DT < TRUNC(SYSDATE) THEN 1 ELSE 0 END)  AS OPEN_BREACHED_SLA
+                        FROM JAN_SERVICE_CCR_zoho c
+                        WHERE c.ORG_ID = :orgId AND  TRUNC(CCRDT) >= TRUNC(:fromDate) AND TRUNC(CCRDT) <= TRUNC(:toDate)
+                        GROUP BY c.ITEM_NO
+                    )
+                    SELECT p.ITEM_NO,p.COMP_CUS_NAME, p.CUSREGION, p.PRODUCT_DESCRIPTION, NVL(io.ORDERS_DELIVERED, 0) AS ORDERS_DELIVERED,
+                           p.TOTAL_COMPLAINTS, p.SOLVED_WITHIN_SLA, p.OPEN_WITHIN_SLA, p.OPEN_BREACHED_SLA
+                    FROM per_item p
+                    LEFT JOIN item_orders io ON io.ITEM_NO = p.ITEM_NO";
 
+                ps = new[]
+                {
+                    new OracleParam("orgId", orgId),
+                    new OracleParam("fromDate", DateTime.Parse(fromDate)),
+                    new OracleParam("toDate", DateTime.Parse(toDate))
+                };
+
+                pagedSql = $@"
+                    SELECT * FROM (
+                        SELECT a.*, ROWNUM rnum FROM (
+                            {baseSql}
+                            ORDER BY TOTAL_COMPLAINTS DESC
+                        ) a
+                        WHERE ROWNUM <= :endRow
+                    )
+                    WHERE rnum >= :startRow";
+
+                pagedPs = new[]
+                {
+                    new OracleParam("orgId", orgId),
+                    new OracleParam("fromDate", DateTime.Parse(fromDate)),
+                    new OracleParam("toDate", DateTime.Parse(toDate)),
+                    new OracleParam("startRow", startRow + 1),
+                    new OracleParam("endRow", startRow + pageSize)
+                };
+
+                totalsSql = @"
+                    SELECT NVL(SUM(io.ORDERS_DELIVERED),0) AS ORDERS_DELIVERED,
+                           NVL(SUM(p.TOTAL_COMPLAINTS),0)   AS TOTAL_COMPLAINTS,
+                           NVL(SUM(p.SOLVED_WITHIN_SLA),0)  AS SOLVED_WITHIN_SLA,
+                           NVL(SUM(p.OPEN_WITHIN_SLA),0)    AS OPEN_WITHIN_SLA,
+                           NVL(SUM(p.OPEN_BREACHED_SLA),0)  AS OPEN_BREACHED_SLA
+                    FROM (
+                        SELECT c.ITEM_NO, COUNT(*) AS TOTAL_COMPLAINTS,
+                               SUM(CASE WHEN c.CLOSE_DT IS NOT NULL AND c.CLOSE_DT <= c.TARGET_COMP_DT THEN 1 ELSE 0 END) AS SOLVED_WITHIN_SLA,
+                               SUM(CASE WHEN c.CLOSE_DT IS NULL AND (c.TARGET_COMP_DT IS NULL OR c.TARGET_COMP_DT >= TRUNC(SYSDATE)) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
+                               SUM(CASE WHEN c.CLOSE_DT IS NULL AND c.TARGET_COMP_DT < TRUNC(SYSDATE) THEN 1 ELSE 0 END) AS OPEN_BREACHED_SLA
+                        FROM JAN_SERVICE_CCR_zoho c
+                        WHERE c.ORG_ID = :orgId AND TRUNC(c.CCRDT) >= TRUNC(:fromDate)
+                        AND TRUNC(c.CCRDT) <= TRUNC(:toDate)
+                        GROUP BY c.ITEM_NO
+                    ) p
+                    LEFT JOIN (
+                        SELECT ITEM_NO, MAX(WEEK_SALE_QTY) AS ORDERS_DELIVERED
+                        FROM JAN_SERVICE_CCR_zoho
+                        WHERE ORG_ID = :orgId AND TRUNC(CCRDT) >= TRUNC(:fromDate)
+                        AND TRUNC(CCRDT) <= TRUNC(:toDate)
+                        GROUP BY ITEM_NO
+                    ) io ON io.ITEM_NO = p.ITEM_NO";
+            }
+            else
+            {
+                baseSql = @"
+                    WITH item_orders AS (
+                        SELECT ITEM_NO, MAX(WEEK_SALE_QTY) AS ORDERS_DELIVERED
+                        FROM JAN_SERVICE_CCR_zoho
+                        WHERE ORG_ID = @orgId AND DATE(CCRDT) >= DATE(@fromDate) AND DATE(CCRDT) <= DATE(@toDate)
+                        GROUP BY ITEM_NO
+                    ),
+                    per_item AS (
+                        SELECT
+                            c.ITEM_NO,
+                            MAX(c.COMP_CUS_NAME)                                                                      AS COMP_CUS_NAME,
+                            MAX(c.DESCRIPTION)                                                                       AS PRODUCT_DESCRIPTION,
+                            MAX(c.CUSREGION)                                                                          AS CUSREGION,
+                            COUNT(*)                                                                                  AS TOTAL_COMPLAINTS,
+                            SUM(CASE WHEN c.CLOSE_DT IS NOT NULL AND c.CLOSE_DT <= c.TARGET_COMP_DT THEN 1 ELSE 0 END) AS SOLVED_WITHIN_SLA,
+                            SUM(CASE WHEN c.CLOSE_DT IS NULL AND (c.TARGET_COMP_DT IS NULL OR c.TARGET_COMP_DT >= CURDATE()) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
+                            SUM(CASE WHEN c.CLOSE_DT IS NULL AND c.TARGET_COMP_DT < CURDATE() THEN 1 ELSE 0 END)  AS OPEN_BREACHED_SLA
+                        FROM JAN_SERVICE_CCR_zoho c
+                        WHERE c.ORG_ID = @orgId AND DATE(c.CCRDT) >= DATE(@fromDate) AND DATE(c.CCRDT) <= DATE(@toDate)
+                        GROUP BY c.ITEM_NO
+                    )
+                    SELECT p.ITEM_NO, p.COMP_CUS_NAME, p.CUSREGION, p.PRODUCT_DESCRIPTION, COALESCE(io.ORDERS_DELIVERED, 0) AS ORDERS_DELIVERED,
+                           p.TOTAL_COMPLAINTS, p.SOLVED_WITHIN_SLA, p.OPEN_WITHIN_SLA, p.OPEN_BREACHED_SLA
+                    FROM per_item p
+                    LEFT JOIN item_orders io ON io.ITEM_NO = p.ITEM_NO";
+
+                ps = new[]
+                {
+                    new OracleParam("orgId", orgId),
+                    new OracleParam("fromDate", DateTime.Parse(fromDate)),
+                    new OracleParam("toDate", DateTime.Parse(toDate))
+                };
+
+                pagedSql = $@"
+                    SELECT t.* FROM ({baseSql}) t
+                    ORDER BY t.TOTAL_COMPLAINTS DESC
+                    LIMIT @pageSize OFFSET @offset";
+
+                pagedPs = new[]
+                {
+                    new OracleParam("orgId", orgId),
+                    new OracleParam("fromDate", DateTime.Parse(fromDate)),
+                    new OracleParam("toDate", DateTime.Parse(toDate)),
+                    new OracleParam("pageSize", pageSize),
+                    new OracleParam("offset", startRow)
+                };
+
+                totalsSql = @"
+                    SELECT COALESCE(SUM(io.ORDERS_DELIVERED), 0) AS ORDERS_DELIVERED,
+                           COALESCE(SUM(p.TOTAL_COMPLAINTS), 0)   AS TOTAL_COMPLAINTS,
+                           COALESCE(SUM(p.SOLVED_WITHIN_SLA), 0)  AS SOLVED_WITHIN_SLA,
+                           COALESCE(SUM(p.OPEN_WITHIN_SLA), 0)    AS OPEN_WITHIN_SLA,
+                           COALESCE(SUM(p.OPEN_BREACHED_SLA), 0)  AS OPEN_BREACHED_SLA
+                    FROM (
+                        SELECT c.ITEM_NO, COUNT(*) AS TOTAL_COMPLAINTS,
+                               SUM(CASE WHEN c.CLOSE_DT IS NOT NULL AND c.CLOSE_DT <= c.TARGET_COMP_DT THEN 1 ELSE 0 END) AS SOLVED_WITHIN_SLA,
+                               SUM(CASE WHEN c.CLOSE_DT IS NULL AND (c.TARGET_COMP_DT IS NULL OR c.TARGET_COMP_DT >= CURDATE()) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
+                               SUM(CASE WHEN c.CLOSE_DT IS NULL AND c.TARGET_COMP_DT < CURDATE() THEN 1 ELSE 0 END) AS OPEN_BREACHED_SLA
+                        FROM JAN_SERVICE_CCR_zoho c
+                        WHERE c.ORG_ID = @orgId AND DATE(c.CCRDT) >= DATE(@fromDate)
+                        AND DATE(c.CCRDT) <= DATE(@toDate)
+                        GROUP BY c.ITEM_NO
+                    ) p
+                    LEFT JOIN (
+                        SELECT ITEM_NO, MAX(WEEK_SALE_QTY) AS ORDERS_DELIVERED
+                        FROM JAN_SERVICE_CCR_zoho
+                        WHERE ORG_ID = @orgId AND DATE(CCRDT) >= DATE(@fromDate)
+                        AND DATE(CCRDT) <= DATE(@toDate)
+                        GROUP BY ITEM_NO
+                    ) io ON io.ITEM_NO = p.ITEM_NO";
+            }
+
+            int totalCount = Convert.ToInt32(_db.ExecuteQuery($"SELECT COUNT(*) AS CNT FROM ({baseSql}) t", ps).Rows[0]["CNT"]);
             DataTable dt = _db.ExecuteQuery(pagedSql, pagedPs);
 
             var rows = new List<ProductComplaintRow>();
@@ -299,30 +512,6 @@ GROUP BY b.PERIOD, io.TOTAL_DELIVERED";
                     ComplaintRatePct = orders > 0 ? Math.Round(complaintTotal * 100.0 / orders, 2) : 0
                 });
             }
-
-            var totalsSql = @"
-                SELECT COALESCE(SUM(io.ORDERS_DELIVERED), 0) AS ORDERS_DELIVERED,
-                       COALESCE(SUM(p.TOTAL_COMPLAINTS), 0)   AS TOTAL_COMPLAINTS,
-                       COALESCE(SUM(p.SOLVED_WITHIN_SLA), 0)  AS SOLVED_WITHIN_SLA,
-                       COALESCE(SUM(p.OPEN_WITHIN_SLA), 0)    AS OPEN_WITHIN_SLA,
-                       COALESCE(SUM(p.OPEN_BREACHED_SLA), 0)  AS OPEN_BREACHED_SLA
-                FROM (
-                    SELECT c.ITEM_NO, COUNT(*) AS TOTAL_COMPLAINTS,
-                           SUM(CASE WHEN c.CLOSE_DT IS NOT NULL AND c.CLOSE_DT <= c.TARGET_COMP_DT THEN 1 ELSE 0 END) AS SOLVED_WITHIN_SLA,
-                           SUM(CASE WHEN c.CLOSE_DT IS NULL AND (c.TARGET_COMP_DT IS NULL OR c.TARGET_COMP_DT >= CURDATE()) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
-                           SUM(CASE WHEN c.CLOSE_DT IS NULL AND c.TARGET_COMP_DT < CURDATE() THEN 1 ELSE 0 END) AS OPEN_BREACHED_SLA
-                    FROM JAN_SERVICE_CCR_zoho c
-                    WHERE c.ORG_ID = @orgId AND DATE(c.CCRDT) >= DATE(@fromDate)
-                    AND DATE(c.CCRDT) <= DATE(@toDate)
-                    GROUP BY c.ITEM_NO
-                ) p
-                LEFT JOIN (
-                    SELECT ITEM_NO, MAX(WEEK_SALE_QTY) AS ORDERS_DELIVERED
-                    FROM JAN_SERVICE_CCR_zoho
-                    WHERE ORG_ID = @orgId AND DATE(CCRDT) >= DATE(@fromDate)
-                    AND DATE(CCRDT) <= DATE(@toDate)
-                    GROUP BY ITEM_NO
-                ) io ON io.ITEM_NO = p.ITEM_NO";
 
             var tRow = _db.ExecuteQuery(totalsSql, ps).Rows[0];
             int tTotal = DbHelper.Val<int>(tRow, "TOTAL_COMPLAINTS");
