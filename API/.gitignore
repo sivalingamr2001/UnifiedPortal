@@ -11,3 +11,4 @@ DynamicTransaction/bin/
 **/*.AssemblyReference.cache
 **/*.GeneratedMSBuildEditorConfig.editorconfig
 **/*.cache
+.vs
