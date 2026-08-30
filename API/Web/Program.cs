@@ -31,12 +31,8 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
-    var oracleService = new OracleService();
-    var connectionString = oracleService.GetConnectionString();
-
-    builder.Services.AddDynamicTransaction(connectionString);
-
-    builder.Services.AddScoped<OracleService>();
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("DefaultConnection connection string not found.");
+    builder.Services.AddMySqlDynamicTransaction(connectionString);
 
     var app = builder.Build();
 

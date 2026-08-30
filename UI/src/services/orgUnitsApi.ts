@@ -2,10 +2,18 @@ import { apiClient } from "@/shared/lib/apiClient"
 import type { OperatingUnitModel, OrganizationModel } from "../types/models"
 
 export const orgUnitsApi = {
-  listOperatingUnits: () =>
-    apiClient.get<OperatingUnitModel[]>("/org-units/operating-units"),
-  listOrganizations: (operatingUnit: number) =>
-    apiClient.get<OrganizationModel[]>(
-      `/org-units/organizations?operatingUnit=${encodeURIComponent(operatingUnit)}`
-    ),
+  listOperatingUnits: async () => {
+    const res = await apiClient.post<{ data: OperatingUnitModel[] }>("/query/execute", {
+      queryNumber: 120,
+      inputParameters: {}
+    });
+    return res.data;
+  },
+  listOrganizations: async (operatingUnit: number) => {
+    const res = await apiClient.post<{ data: OrganizationModel[] }>("/query/execute", {
+      queryNumber: 121,
+      inputParameters: { OperatingUnit: operatingUnit }
+    });
+    return res.data;
+  }
 }

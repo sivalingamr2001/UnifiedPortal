@@ -223,7 +223,6 @@ INSERT INTO JAN_QUERY_DEFINITION_DEV (QUERY_NUMBER, DESCRIPTION, QUERY_TEXT) VAL
 (120, 'List Operating Units', 'SELECT 101 AS operatingUnit, \'Operating Unit 1\' AS operatingUnitName UNION SELECT 102, \'Operating Unit 2\''),
 (121, 'List Organizations', 'SELECT 1 AS organizationId, \'ORG001\' AS organizationCode WHERE @OperatingUnit = 101 UNION SELECT 2, \'ORG002\' WHERE @OperatingUnit = 101 UNION SELECT 3, \'ORG003\' WHERE @OperatingUnit = 102 UNION SELECT 4, \'ORG004\' WHERE @OperatingUnit = 102');
 
-
 -- ==========================================
 -- Seed Initial RBAC Data
 -- ==========================================
@@ -233,32 +232,78 @@ INSERT INTO JAN_ROLES (ROLE_ID, ROLE_CODE, ROLE_NAME, SOURCE_TYPE, REMARKS, ROLE
 (1, 'ADM', 'Administrator', 'ADMIN', 'Super admin role with access to everything', '1.0', 'ACTIVE', 'system'),
 (2, 'USR', 'Standard User', 'USER', 'Standard corporate employee access role', '1.0', 'ACTIVE', 'system');
 
--- Seed Modules
+-- Seed Modules (using sequential MOD001 - MOD008 codes)
 INSERT INTO JAN_MODULES (MODULE_ID, MODULE_CODE, MODULE_NAME, DEFAULT_MENU, SORT_ORDER, REMARKS, STATUS, CREATED_BY) VALUES
-(1, 'ADM', 'Admin Module', 'Overview', 1, 'Administration, Security & Configs', 'ACTIVE', 'system'),
-(2, 'FIN', 'Finance', 'Dashboard', 2, 'Financial reports & statements', 'ACTIVE', 'system');
+(1, 'MOD001', 'Admin',   'Main',             1, 'Admin module',   'ACTIVE', 'SYSTEM'),
+(2, 'MOD002', 'PES',     'Dashboards',       2, 'PES module',     'ACTIVE', 'SYSTEM'),
+(3, 'MOD003', 'PESLite', 'Branch Planner',   3, 'PESLite module', 'ACTIVE', 'SYSTEM'),
+(4, 'MOD004', 'DMS',     'Documents',        4, 'DMS module',     'ACTIVE', 'SYSTEM'),
+(5, 'MOD005', 'SCM',     'Procurement',      5, 'SCM module',     'ACTIVE', 'SYSTEM'),
+(6, 'MOD006', 'PMS',     'Projects',         6, 'PMS module',     'ACTIVE', 'SYSTEM'),
+(7, 'MOD007', 'MES',     'Shop Floor',       7, 'MES module',     'ACTIVE', 'SYSTEM'),
+(8, 'MOD008', 'Finance', 'Masters',          8, 'Finance module', 'ACTIVE', 'SYSTEM');
 
--- Seed Menus
-INSERT INTO JAN_MENUS (MENU_ID, MENU_CODE, MENU_NAME, DISPLAY_NAME, MODULE_ID, PARENT_MENU_ID, MENU_TYPE, NATURE, SORT_ORDER, STATUS, MENU_PATH, MENU_ICON, CREATED_BY) VALUES
-(1, 'OVRW', 'Overview', 'Overview', 1, NULL, 'MASTER', 'FORM', 1, 'ACTIVE', '/admin/overview', 'LayoutGrid', 'system'),
-(2, 'MDM', 'Modules', 'Module Master', 1, NULL, 'MASTER', 'FORM', 2, 'ACTIVE', '/admin/modules', 'Blocks', 'system'),
-(3, 'RLM', 'Roles', 'Role Master', 1, NULL, 'MASTER', 'FORM', 3, 'ACTIVE', '/admin/roles', 'ShieldAlert', 'system'),
-(4, 'MNM', 'Menus', 'Menu Master', 1, NULL, 'MASTER', 'FORM', 4, 'ACTIVE', '/admin/menus', 'Menu', 'system'),
-(5, 'USM', 'Users', 'User Master', 1, NULL, 'MASTER', 'FORM', 5, 'ACTIVE', '/admin/users', 'Users', 'system'),
-(6, 'RVM', 'RoleVsMenu', 'Role vs Menu', 1, NULL, 'MASTER', 'FORM', 6, 'ACTIVE', '/admin/role-vs-menu', 'ShieldCheck', 'system'),
-(7, 'UAR', 'UserAccess', 'User Access Rights', 1, NULL, 'MASTER', 'FORM', 7, 'ACTIVE', '/admin/user-access-rights', 'Key', 'system');
+-- Seed Menus (using sequential MNU001 - MNU039 codes)
+INSERT INTO JAN_MENUS (MENU_ID, MENU_CODE, MENU_NAME, DISPLAY_NAME, MODULE_ID, PARENT_MENU_ID, MENU_TYPE, NATURE, SORT_ORDER, STATUS, CREATED_BY, MENU_PATH, MENU_ICON) VALUES
+-- Admin
+(1, 'MNU001', 'Main', 'Main', 1, NULL, 'MASTER', 'PARENT', 1, 'ACTIVE', 'SYSTEM', '/admin/main', 'settings'),
+(2, 'MNU002', 'User Master', 'User Master', 1, 1, 'MASTER', 'CHILD', 1, 'ACTIVE', 'SYSTEM', '/admin/user-master', 'user'),
+(3, 'MNU003', 'Role Master', 'Role Master', 1, 1, 'MASTER', 'CHILD', 2, 'ACTIVE', 'SYSTEM', '/admin/role-master', 'shield'),
+(4, 'MNU004', 'Module Master', 'Module Master', 1, 1, 'MASTER', 'CHILD', 3, 'ACTIVE', 'SYSTEM', '/admin/module-master', 'boxes'),
+(5, 'MNU005', 'Menu Master', 'Menu Master', 1, 1, 'MASTER', 'CHILD', 4, 'ACTIVE', 'SYSTEM', '/admin/menu-master', 'menu'),
+(6, 'MNU006', 'Role vs Module', 'Role vs Module', 1, 1, 'MASTER', 'CHILD', 5, 'ACTIVE', 'SYSTEM', '/admin/role-vs-module', 'link'),
+(7, 'MNU007', 'Role vs Menu', 'Role vs Menu', 1, 1, 'MASTER', 'CHILD', 6, 'ACTIVE', 'SYSTEM', '/admin/role-vs-menu', 'list-checks'),
+(8, 'MNU008', 'User Access Rights', 'User Access Rights', 1, 1, 'MASTER', 'CHILD', 7, 'ACTIVE', 'SYSTEM', '/admin/user-access-rights', 'key'),
+(9, 'MNU009', 'User Hierarchy', 'User Hierarchy', 1, 1, 'MASTER', 'CHILD', 8, 'ACTIVE', 'SYSTEM', '/admin/user-hierarchy', 'network'),
+
+-- PES
+(10, 'MNU010', 'Dashboards', 'Dashboards', 2, NULL, 'REPORT', 'PARENT', 1, 'ACTIVE', 'SYSTEM', '/pes/dashboards', 'layout-dashboard'),
+(11, 'MNU011', 'Planning & Execution Control', 'Planning & Execution Control', 2, 10, 'REPORT', 'CHILD', 1, 'ACTIVE', 'SYSTEM', '/pes/dashboards/planning-execution-control', 'activity'),
+(12, 'MNU012', 'Operations Dashboard', 'Operations Dashboard', 2, 10, 'REPORT', 'CHILD', 2, 'ACTIVE', 'SYSTEM', '/pes/dashboards/operations-dashboard', 'gauge'),
+(13, 'MNU013', 'Planning Overview', 'Planning Overview', 2, 10, 'REPORT', 'CHILD', 3, 'ACTIVE', 'SYSTEM', '/pes/dashboards/planning-overview', 'calendar-days'),
+(14, 'MNU014', 'Executive Summary', 'Executive Summary', 2, 10, 'REPORT', 'CHILD', 4, 'ACTIVE', 'SYSTEM', '/pes/dashboards/executive-summary', 'presentation'),
+(15, 'MNU015', 'KPI\'s', 'KPI\'s', 2, NULL, 'REPORT', 'PARENT', 2, 'ACTIVE', 'SYSTEM', '/pes/kpis', 'chart-no-axes-combined'),
+(16, 'MNU016', 'OCQ completion', 'OCQ completion', 2, 15, 'REPORT', 'CHILD', 1, 'ACTIVE', 'SYSTEM', '/pes/kpis/ocq-completion', 'circle-check'),
+(17, 'MNU017', 'On-Time Delivery', 'On-Time Delivery', 2, 15, 'REPORT', 'CHILD', 2, 'ACTIVE', 'SYSTEM', '/pes/kpis/on-time-delivery', 'clock'),
+(18, 'MNU018', 'Customer Rejection PPM', 'Customer Rejection PPM', 2, 15, 'REPORT', 'CHILD', 3, 'ACTIVE', 'SYSTEM', '/pes/kpis/customer-rejection-ppm', 'alert-triangle'),
+(19, 'MNU019', 'Fill Rate', 'Fill Rate', 2, 15, 'REPORT', 'CHILD', 4, 'ACTIVE', 'SYSTEM', '/pes/kpis/fill-rate', 'percent'),
+(20, 'MNU020', 'Alerts', 'Alerts', 2, NULL, 'TRANSACTION', 'PARENT', 3, 'ACTIVE', 'SYSTEM', '/pes/alerts', 'bell'),
+(21, 'MNU021', 'Active Alerts', 'Active Alerts', 2, 20, 'TRANSACTION', 'CHILD', 1, 'ACTIVE', 'SYSTEM', '/pes/alerts/active-alerts', 'bell-ring'),
+(22, 'MNU022', 'Alert History', 'Alert History', 2, 20, 'REPORT', 'CHILD', 2, 'ACTIVE', 'SYSTEM', '/pes/alerts/alert-history', 'history'),
+(23, 'MNU023', 'Alert Configuration', 'Alert Configuration', 2, 20, 'MASTER', 'CHILD', 3, 'ACTIVE', 'SYSTEM', '/pes/alerts/alert-configuration', 'sliders-horizontal'),
+(24, 'MNU024', 'Transactions', 'Transactions', 2, NULL, 'TRANSACTION', 'PARENT', 4, 'ACTIVE', 'SYSTEM', '/pes/transactions', 'repeat'),
+(25, 'MNU025', 'Product Custodian Portfolio', 'Product Custodian Portfolio', 2, 24, 'TRANSACTION', 'CHILD', 1, 'ACTIVE', 'SYSTEM', '/pes/transactions/product-custodian-portfolio', 'briefcase'),
+(26, 'MNU026', 'Branch Planner', 'Branch Planner', 2, 24, 'TRANSACTION', 'CHILD', 2, 'ACTIVE', 'SYSTEM', '/pes/transactions/branch-planner', 'map-pinned'),
+(27, 'MNU027', 'HO Planner', 'HO Planner', 2, 24, 'TRANSACTION', 'CHILD', 3, 'ACTIVE', 'SYSTEM', '/pes/transactions/ho-planner', 'building-2'),
+(28, 'MNU028', 'Demand Forecast', 'Demand Forecast', 2, 24, 'TRANSACTION', 'CHILD', 4, 'ACTIVE', 'SYSTEM', '/pes/transactions/demand-forecast', 'trending-up'),
+(29, 'MNU029', 'Replenishment Orders', 'Replenishment Orders', 2, 24, 'TRANSACTION', 'CHILD', 5, 'ACTIVE', 'SYSTEM', '/pes/transactions/replenishment-orders', 'package-plus'),
+
+-- PESLite
+(30, 'MNU030', 'Branch Planner', 'Branch Planner', 3, NULL, 'TRANSACTION', 'MENU', 1, 'ACTIVE', 'SYSTEM', '/peslite/branch-planner', 'map-pinned'),
+(31, 'MNU031', 'HO Planner', 'HO Planner', 3, NULL, 'TRANSACTION', 'MENU', 2, 'ACTIVE', 'SYSTEM', '/peslite/ho-planner', 'building-2'),
+(32, 'MNU032', 'Product Custodian', 'Product Custodian', 3, NULL, 'TRANSACTION', 'MENU', 3, 'ACTIVE', 'SYSTEM', '/peslite/product-custodian', 'briefcase'),
+(33, 'MNU033', 'Commodity Custodian', 'Commodity Custodian', 3, NULL, 'TRANSACTION', 'MENU', 4, 'ACTIVE', 'SYSTEM', '/peslite/commodity-custodian', 'boxes'),
+(34, 'MNU034', 'Vendor Planner', 'Vendor Planner', 3, NULL, 'TRANSACTION', 'MENU', 5, 'ACTIVE', 'SYSTEM', '/peslite/vendor-planner', 'users'),
+
+-- DMS
+(35, 'MNU035', 'Documents', 'Documents', 4, NULL, 'TRANSACTION', 'MENU', 1, 'ACTIVE', 'SYSTEM', '/dms/documents', 'file-text'),
+
+-- SCM
+(36, 'MNU036', 'Procurement', 'Procurement', 5, NULL, 'TRANSACTION', 'MENU', 1, 'ACTIVE', 'SYSTEM', '/scm/procurement', 'shopping-cart'),
+
+-- PMS
+(37, 'MNU037', 'Projects', 'Projects', 6, NULL, 'TRANSACTION', 'MENU', 1, 'ACTIVE', 'SYSTEM', '/pms/projects', 'folder-kanban'),
+
+-- MES
+(38, 'MNU038', 'Shop Floor', 'Shop Floor', 7, NULL, 'TRANSACTION', 'MENU', 1, 'ACTIVE', 'SYSTEM', '/mes/shop-floor', 'factory'),
+
+-- Finance
+(39, 'MNU039', 'Masters', 'Masters', 8, NULL, 'MASTER', 'MENU', 1, 'ACTIVE', 'SYSTEM', '/finance/masters', 'dollar-sign');
 
 -- Seed User Master (username: admin, password: password, employeeId: EMP1001)
--- password hash and salt match dummy hashes that will work with our login logic
 INSERT INTO JAN_USER_MASTER (USER_ID, USER_CODE, EMPLOYEE_ID, FULL_NAME, USER_NAME, PASSWORD_HASH, PASSWORD_SALT, USER_TYPE, SECURITY_LEVEL, ROLE_ID, VALID_FROM, STATUS, PRIMARY_EMAIL, CREATED_BY) VALUES
 (1, 'U0001', 'EMP1001', 'Admin User', 'admin', 'dummysalt_hash', 'dummysalt_salt', 'EMPLOYEE', 5, 1, '2026-08-30', 'ACTIVE', 'admin@company.com', 'system');
 
--- Seed Role Menu permissions for Admin role (Full permissions on all 7 admin pages)
-INSERT INTO JAN_ROLE_MENU (ROLE_ID, MODULE_ID, MENU_ID, PERM_VIEW, PERM_ADD, PERM_EDIT, PERM_DELETE, PERM_EXPORT, PERM_APPROVE, CREATED_BY) VALUES
-(1, 1, 1, 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'system'),
-(1, 1, 2, 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'system'),
-(1, 1, 3, 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'system'),
-(1, 1, 4, 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'system'),
-(1, 1, 5, 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'system'),
-(1, 1, 6, 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'system'),
-(1, 1, 7, 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'system');
+-- Seed Role Menu permissions for Admin role (Full permissions on all newly inserted menus)
+INSERT INTO JAN_ROLE_MENU (ROLE_ID, MODULE_ID, MENU_ID, PERM_VIEW, PERM_ADD, PERM_EDIT, PERM_DELETE, PERM_EXPORT, PERM_APPROVE, CREATED_BY)
+SELECT 1, MODULE_ID, MENU_ID, 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'SYSTEM' FROM JAN_MENUS;

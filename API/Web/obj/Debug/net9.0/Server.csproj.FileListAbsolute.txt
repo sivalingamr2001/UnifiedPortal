@@ -65,3 +65,4 @@
 /Users/sivalingam/Documents/GitHub/UnifiedPortal/API/Web/obj/Debug/net9.0/Server.pdb
 /Users/sivalingam/Documents/GitHub/UnifiedPortal/API/Web/obj/Debug/net9.0/Server.genruntimeconfig.cache
 /Users/sivalingam/Documents/GitHub/UnifiedPortal/API/Web/obj/Debug/net9.0/ref/Server.dll
+/Users/sivalingam/Documents/GitHub/UnifiedPortal/API/Web/bin/Debug/net9.0/MySqlConnector.dll

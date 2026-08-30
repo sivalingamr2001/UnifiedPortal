@@ -10,6 +10,7 @@
         "dependencies": {
           "Dapper": "2.1.79",
           "Microsoft.Extensions.Logging.Abstractions": "10.0.10",
+          "MySqlConnector": "2.6.2",
           "Newtonsoft.Json": "13.0.4",
           "Oracle.ManagedDataAccess.Core": "23.26.300",
           "Serilog": "4.3.0"
@@ -43,6 +44,18 @@
           "lib/net9.0/Microsoft.Extensions.Logging.Abstractions.dll": {
             "assemblyVersion": "10.0.0.0",
             "fileVersion": "10.0.1026.32716"
+          }
+        }
+      },
+      "MySqlConnector/2.6.2": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.10",
+          "Microsoft.Extensions.Logging.Abstractions": "10.0.10"
+        },
+        "runtime": {
+          "lib/net9.0/MySqlConnector.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.6.2.0"
           }
         }
       },
@@ -225,6 +238,13 @@
       "sha512": "sha512-zkFxGYUvdxAvIKTyXHrmW+Sux53D4SezD9dMyZ6hrwwzPQJNuwCRy1f5W7AvYTqacEGhWF2XderRQG1OvbV8og==",
       "path": "microsoft.extensions.logging.abstractions/10.0.10",
       "hashPath": "microsoft.extensions.logging.abstractions.10.0.10.nupkg.sha512"
+    },
+    "MySqlConnector/2.6.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dlTc/tsBa42szdvpj4nrHvQVUb0gsMwR9HT6J0Zz2OSqfP0CdYlGw+qQPqCpbnO97idfvclSjKYtM6y5QaBQaQ==",
+      "path": "mysqlconnector/2.6.2",
+      "hashPath": "mysqlconnector.2.6.2.nupkg.sha512"
     },
     "Newtonsoft.Json/13.0.4": {
       "type": "package",
