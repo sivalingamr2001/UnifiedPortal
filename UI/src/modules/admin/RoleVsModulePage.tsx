@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { roleMenuApi, rolesApi } from "@/api/endpoints";
 import type { ModuleAccessModel, RoleModel } from "@/types/models";
 
+const roleLabel = (role: Partial<RoleModel>) => role.roleName || role.roleCode || "Unnamed role";
+
 export default function RoleVsModulePage() {
   const [rows, setRows] = useState<ModuleAccessModel[]>([]);
   const [roles, setRoles] = useState<RoleModel[]>([]);
@@ -13,7 +15,7 @@ export default function RoleVsModulePage() {
     const [access, roleList] = await Promise.all([roleMenuApi.listModuleAccess(), rolesApi.list()]);
     setRows(access);
     setRoles(roleList);
-    if (!activeRole && roleList.length > 0) setActiveRole(roleList[0].roleName);
+    if (!activeRole && roleList.length > 0) setActiveRole(roleList[0].roleName ?? "");
     setLoading(false);
   }
   useEffect(() => { void load(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, []);
@@ -34,9 +36,9 @@ export default function RoleVsModulePage() {
       {!loading && (
         <div className="flex items-center gap-1.5 mb-4 flex-wrap">
           {roles.map((r) => (
-            <button key={r.roleId} onClick={() => setActiveRole(r.roleName)}
+            <button key={r.roleId} onClick={() => setActiveRole(r.roleName ?? "")}
               className={`px-3 py-1.5 rounded text-xs font-semibold transition-colors ${activeRole === r.roleName ? "bg-slate-900 text-white" : "bg-white text-slate-700 border border-slate-300 hover:bg-slate-50"}`}>
-              {r.roleName}
+              {roleLabel(r)}
             </button>
           ))}
         </div>

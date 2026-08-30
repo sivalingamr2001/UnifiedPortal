@@ -17,6 +17,7 @@ interface CurrentUser {
   userId: number
   userName: string
   role: string
+  roleId: number
 }
 
 interface AuthContextValue {
@@ -43,6 +44,7 @@ function decodeUser(token: string): CurrentUser | null {
       userId: decoded.sub ? parseInt(decoded.sub, 10) : 0,
       userName: (decoded.unique_name as string) ?? "",
       role: String(role),
+      roleId: decoded.role_id ? parseInt(decoded.role_id, 10) : 0,
     }
   } catch {
     return null

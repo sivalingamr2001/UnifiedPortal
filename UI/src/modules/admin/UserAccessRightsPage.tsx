@@ -35,7 +35,7 @@ export default function UserAccessRightsPage() {
     try {
       const existing = await userAccessRightsApi.getByUser(userId);
       setRights(existing);
-      setAccessChannel(existing.accessChannel || "SYSTEM");
+      setAccessChannel(existing.accessChannel ?? "SYSTEM");
       const map = new Map<string, OrgUnitLine>();
       (existing.orgUnits || []).forEach((line) => map.set(`${line.operatingUnit}:${line.organizationId}`, line));
       setSelectedLines(map);
@@ -98,7 +98,7 @@ export default function UserAccessRightsPage() {
             <button key={u.userId} onClick={() => void selectUser(u.userId)}
               className={`w-full text-left px-3 py-2.5 rounded-lg mb-1 transition-colors cursor-pointer ${selectedUserId === u.userId ? "bg-blue-50/55 border border-blue-200" : "hover:bg-slate-50 border border-transparent"}`}>
               <div className="text-sm font-medium text-slate-800">{u.fullName}</div>
-              <div className="mt-1"><RoleBadge role={u.roleName} /></div>
+              <div className="mt-1"><RoleBadge role={u.roleName ?? undefined} /></div>
             </button>
           ))}
         </Card>
@@ -124,7 +124,7 @@ export default function UserAccessRightsPage() {
               <div className="space-y-5 max-h-[45vh] overflow-y-auto pr-1">
                 {operatingUnits.map((ou) => (
                   <div key={ou.operatingUnit}>
-                    <div className="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-2">{ou.operatingUnitName ?? ou.name}</div>
+                    <div className="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-2">{ou.operatingUnitName}</div>
                     <div className="space-y-1.5">
                       {(orgsByOu[ou.operatingUnit] ?? []).map((org) => {
                         const key = `${ou.operatingUnit}:${org.organizationId}`;
@@ -132,7 +132,7 @@ export default function UserAccessRightsPage() {
                         return (
                           <div key={org.organizationId} className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 border border-slate-100">
                             <input type="checkbox" checked={!!line} onChange={() => toggleLine(ou.operatingUnit, org)} className="w-4 h-4 accent-blue-600" />
-                            <span className="text-sm text-slate-800 flex-1">{org.organizationCode ?? org.name}</span>
+                            <span className="text-sm text-slate-800 flex-1">{org.organizationCode}</span>
                             {line && (
                               <input type="number" min={0} placeholder="Limit" value={line.limitValue} onChange={(e) => updateLimit(ou.operatingUnit, org.organizationId, Number(e.target.value))}
                                 className="w-28 px-2 py-1 text-xs rounded border border-slate-300 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400" />

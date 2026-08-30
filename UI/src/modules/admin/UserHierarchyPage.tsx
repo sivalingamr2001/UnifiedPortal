@@ -25,7 +25,7 @@ function TreeItem({ node, depth }: { node: TreeNode; depth: number }) {
           <button onClick={() => setExpanded((e) => !e)} className="w-5 h-5 flex items-center justify-center text-muted text-xs">{expanded ? "▾" : "▸"}</button>
         ) : <span className="w-5" />}
         <span className="text-sm font-medium text-ink">{node.user.fullName}</span>
-        <RoleBadge role={node.user.roleName} />
+        <RoleBadge role={node.user.roleName ?? undefined} />
         <span className="text-xs text-muted">{node.user.employeeId}</span>
       </div>
       {expanded && node.children.map((child) => <TreeItem key={child.user.userId} node={child} depth={depth + 1} />)}

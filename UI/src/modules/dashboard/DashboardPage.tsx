@@ -11,6 +11,7 @@ import {
 } from "@/shared/lib/formatters";
 import type { ModuleModel } from "@/types/models";
 import { useEffect, useState } from "react";
+import { apiClient } from "@/shared/lib/apiClient";
 
 const moduleToneMap: Record<string, string> = {
   admin: "bg-violet-100 text-violet-700",
@@ -57,11 +58,13 @@ function DashboardPage() {
   const [selectedModuleId, setSelectedModuleId] = useState<number | null>(null);
   const [loadingModules, setLoadingModules] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [roleMappings, setRoleMappings] = useState<any[]>([]);
 
   const handleModuleClick = async (
     moduleId: number,
     currentModuleList: ModuleModel[] = modules,
     source: "user" | "auto" = "user",
+    currentMappings: any[] = roleMappings,
   ) => {
     setSelectedModuleId(moduleId);
 
@@ -86,8 +89,28 @@ function DashboardPage() {
         return;
       }
 
-      const data = await menusApi.list(moduleId);
-      const menus = normalizeMenus(data);
+      const menusRes = await apiClient.post<any>("/query/execute", {
+        queryNumber: 119,
+        inputParameters: { ModuleId: moduleId }
+      });
+      let menus = normalizeMenus(menusRes);
+
+      if (user && user.roleId) {
+        const assignedMenuIds = new Set<number>(
+          currentMappings.map((m: any) => m.MENU_ID ?? m.menuId)
+        );
+        const allowedMenuIds = new Set<number>();
+        const includeMenuAndParents = (menuId: number) => {
+          if (allowedMenuIds.has(menuId)) return;
+          allowedMenuIds.add(menuId);
+          const menu = menus.find((m) => m.menuId === menuId);
+          if (menu && menu.parentMenuId) {
+            includeMenuAndParents(menu.parentMenuId);
+          }
+        };
+        assignedMenuIds.forEach((id) => includeMenuAndParents(id));
+        menus = menus.filter((m) => allowedMenuIds.has(m.menuId));
+      }
 
       window.dispatchEvent(
         new CustomEvent("portal:module-menus", {
@@ -112,26 +135,20 @@ function DashboardPage() {
         setLoadingModules(true);
         setError(null);
 
-        const [allModules, accessRows] = await Promise.all([
-          modulesApi.get(user.userId),
-          roleMenuApi.listModuleAccess(),
+        const [allModulesRes, mappingsRes] = await Promise.all([
+          apiClient.post<any>("/query/execute", { queryNumber: 101, inputParameters: {} }),
+          apiClient.post<any>("/query/execute", { queryNumber: 113, inputParameters: { RoleId: user.roleId } }),
         ]);
 
-        const currentRole = (user.role ?? "").toLowerCase();
-        const allowedAccess = normalizeModuleAccess(accessRows).filter(
-          (item) =>
-            item.accessFlag === "ALLOWED" &&
-            (item.roleName ?? "").toLowerCase() === currentRole,
+        const rawMappings = mappingsRes.data || [];
+        setRoleMappings(rawMappings);
+
+        const assignedModuleIds = new Set<number>(
+          rawMappings.map((m: any) => m.MODULE_ID ?? m.moduleId)
         );
 
-        const allowedModuleIds =
-          allowedAccess.length > 0
-            ? new Set(allowedAccess.map((item) => item.moduleId))
-            : null;
-
-        const assignedModules = normalizeModules(allModules).filter(
-          (module) =>
-            allowedModuleIds === null || allowedModuleIds.has(module.moduleId),
+        const assignedModules = normalizeModules(allModulesRes).filter(
+          (module) => assignedModuleIds.has(module.moduleId)
         );
 
         setModules(assignedModules);
@@ -139,7 +156,7 @@ function DashboardPage() {
         const defaultModuleId = getDefaultModuleId(user.role, assignedModules);
         if (defaultModuleId !== null) {
           setSelectedModuleId(defaultModuleId);
-          void handleModuleClick(defaultModuleId, assignedModules, "auto");
+          void handleModuleClick(defaultModuleId, assignedModules, "auto", rawMappings);
         } else {
           setSelectedModuleId(null);
         }

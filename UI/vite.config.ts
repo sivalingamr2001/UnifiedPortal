@@ -9,6 +9,9 @@ export default defineConfig({
   base: "/unified-portal/",
   resolve: {
     alias: {
+      "@/components": path.resolve(__dirname, "./src/shared"),
+      "@/lib": path.resolve(__dirname, "./src/shared/lib"),
+      "@/hooks": path.resolve(__dirname, "./src/shared/hooks"),
       "@": path.resolve(__dirname, "./src"),
     },
   },

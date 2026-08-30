@@ -72,17 +72,57 @@ async function request<TResponse>(
   return (await response.json()) as TResponse
 }
 
+function toUpperSnakeCase(str: string): string {
+  return str
+    .replace(/([a-z])([A-Z])/g, "$1_$2")
+    .toUpperCase();
+}
+
+function mapKeysToUpperSnakeCase(obj: any): any {
+  if (obj === null || obj === undefined) return obj;
+  if (typeof obj !== "object") return obj;
+  if (Array.isArray(obj)) return obj.map(mapKeysToUpperSnakeCase);
+
+  const result: Record<string, any> = {};
+  for (const key of Object.keys(obj)) {
+    result[toUpperSnakeCase(key)] = obj[key];
+  }
+  return result;
+}
+
 export const apiClient = {
   get: <T>(path: string) => request<T>(path, { method: "GET" }),
-  post: <T>(path: string, body?: unknown) =>
-    request<T>(path, {
+  post: <T>(path: string, body?: any) => {
+    let payload = body;
+    if (path === "/transaction/execute" && body) {
+      payload = { ...body };
+      if (body.mainProps) {
+        payload.mainProps = mapKeysToUpperSnakeCase(body.mainProps);
+      }
+      if (body.childProps && Array.isArray(body.childProps)) {
+        payload.childProps = body.childProps.map(mapKeysToUpperSnakeCase);
+      }
+    }
+    return request<T>(path, {
       method: "POST",
-      body: body ? JSON.stringify(body) : undefined,
-    }),
-  put: <T>(path: string, body?: unknown) =>
-    request<T>(path, {
+      body: payload ? JSON.stringify(payload) : undefined,
+    });
+  },
+  put: <T>(path: string, body?: any) => {
+    let payload = body;
+    if (path === "/transaction/execute" && body) {
+      payload = { ...body };
+      if (body.mainProps) {
+        payload.mainProps = mapKeysToUpperSnakeCase(body.mainProps);
+      }
+      if (body.childProps && Array.isArray(body.childProps)) {
+        payload.childProps = body.childProps.map(mapKeysToUpperSnakeCase);
+      }
+    }
+    return request<T>(path, {
       method: "PUT",
-      body: body ? JSON.stringify(body) : undefined,
-    }),
+      body: payload ? JSON.stringify(payload) : undefined,
+    });
+  },
   delete: <T>(path: string) => request<T>(path, { method: "DELETE" }),
 }

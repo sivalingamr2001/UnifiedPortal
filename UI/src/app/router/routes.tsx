@@ -8,15 +8,15 @@ import { LoginPage } from "@/modules/auth/LoginPage"
 import DashboardPage from "@/modules/dashboard/DashboardPage"
 
 // Admin module components
-import { AdminLayout } from "@/modules/admin/AdminLayout"
-import { UserMasterPage } from "@/modules/admin/UserMasterPage"
-import { RoleMasterPage } from "@/modules/admin/RoleMasterPage"
-import { ModuleMasterPage } from "@/modules/admin/ModuleMasterPage"
-import { MenuMasterPage } from "@/modules/admin/MenuMasterPage"
-import { RoleVsModulePage } from "@/modules/admin/RoleVsModulePage"
-import { RoleVsMenuPage } from "@/modules/admin/RoleVsMenuPage"
-import { UserAccessRightsPage } from "@/modules/admin/UserAccessRightsPage"
-import { UserHierarchyPage } from "@/modules/admin/UserHierarchyPage"
+import AdminLayout from "@/modules/admin/AdminLayout"
+import UserMasterPage from "@/modules/admin/UserMasterPage"
+import RoleMasterPage from "@/modules/admin/RoleMasterPage"
+import ModuleMasterPage from "@/modules/admin/ModuleMasterPage"
+import MenuMasterPage from "@/modules/admin/MenuMasterPage"
+import RoleVsModulePage from "@/modules/admin/RoleVsModulePage"
+import RoleVsMenuPage from "@/modules/admin/RoleVsMenuPage"
+import UserAccessRightsPage from "@/modules/admin/UserAccessRightsPage"
+import UserHierarchyPage from "@/modules/admin/UserHierarchyPage"
 
 function MenuComingSoonPage() {
   const { menuSlug } = useParams()

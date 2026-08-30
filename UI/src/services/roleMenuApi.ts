@@ -5,34 +5,63 @@ import type {
   ProcedureResult,
 } from "../types/models"
 
+function mapRoleMenu(row: any): RoleMenuModel {
+  return {
+    roleMenuId: row.roleMenuId ?? row.ROLE_MENU_ID ?? 0,
+    roleId: row.roleId ?? row.ROLE_ID,
+    roleName: row.roleName ?? row.ROLE_NAME ?? null,
+    moduleId: row.moduleId ?? row.MODULE_ID,
+    moduleName: row.moduleName ?? row.MODULE_NAME ?? null,
+    menuId: row.menuId ?? row.MENU_ID,
+    menuName: row.menuName ?? row.MENU_NAME ?? null,
+    permView: row.permView ?? row.PERM_VIEW ?? "N",
+    permAdd: row.permAdd ?? row.PERM_ADD ?? "N",
+    permEdit: row.permEdit ?? row.PERM_EDIT ?? "N",
+    permDelete: row.permDelete ?? row.PERM_DELETE ?? "N",
+    permExport: row.permExport ?? row.PERM_EXPORT ?? "N",
+    permApprove: row.permApprove ?? row.PERM_APPROVE ?? "N",
+    restrictedColumns: row.restrictedColumns ?? row.RESTRICTED_COLUMNS ?? null,
+  };
+}
+
+function mapModuleAccess(row: any): ModuleAccessModel {
+  return {
+    roleId: row.roleId ?? row.ROLE_ID,
+    roleName: row.roleName ?? row.ROLE_NAME ?? "",
+    moduleId: row.moduleId ?? row.MODULE_ID,
+    moduleName: row.moduleName ?? row.MODULE_NAME ?? "",
+    accessFlag: row.accessFlag ?? row.ACCESS_FLAG ?? "DENIED",
+  };
+}
+
 export const roleMenuApi = {
   list: async () => {
-    const res = await apiClient.post<{ data: RoleMenuModel[] }>("/query/execute", {
+    const res = await apiClient.post<{ data: any[] }>("/query/execute", {
       queryNumber: 109,
       inputParameters: {}
     });
-    return res.data;
+    return res.data.map(mapRoleMenu);
   },
   listByRole: async (roleId: number) => {
-    const res = await apiClient.post<{ data: RoleMenuModel[] }>("/query/execute", {
+    const res = await apiClient.post<{ data: any[] }>("/query/execute", {
       queryNumber: 113,
       inputParameters: { RoleId: roleId }
     });
-    return res.data;
+    return res.data.map(mapRoleMenu);
   },
   listModuleAccess: async () => {
-    const res = await apiClient.post<{ data: ModuleAccessModel[] }>("/query/execute", {
+    const res = await apiClient.post<{ data: any[] }>("/query/execute", {
       queryNumber: 114,
       inputParameters: {}
     });
-    return res.data;
+    return res.data.map(mapModuleAccess);
   },
   listModuleAccessByRole: async (roleId: number) => {
-    const res = await apiClient.post<{ data: ModuleAccessModel[] }>("/query/execute", {
+    const res = await apiClient.post<{ data: any[] }>("/query/execute", {
       queryNumber: 115,
       inputParameters: { RoleId: roleId }
     });
-    return res.data;
+    return res.data.map(mapModuleAccess);
   },
   getRestrictedColumns: async (menuId: number) => {
     const res = await apiClient.post<{ data: { RESTRICTED_COLUMNS: string }[] }>("/query/execute", {

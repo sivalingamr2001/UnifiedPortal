@@ -11,6 +11,7 @@ type PermKey = (typeof PERM_KEYS)[number]["key"];
 
 const TYPE_LABELS: Record<string, string> = { MASTER: "Masters", TRANSACTION: "Transactions", REPORT: "Reports" };
 const TYPE_ORDER = ["MASTER", "TRANSACTION", "REPORT"] as const;
+const roleLabel = (role: Partial<RoleModel>) => role.roleName || role.roleCode || "Unnamed role";
 
 type DraftPerms = Record<PermKey, "Y" | "N">;
 const emptyPerms: DraftPerms = { permView: "N", permAdd: "N", permEdit: "N", permDelete: "N", permExport: "N", permApprove: "N" };
@@ -36,7 +37,7 @@ export default function RoleVsMenuPage() {
     setRows(mappings);
     setRoles(roleList);
     setAllMenus(menuList);
-    if (!activeRole && roleList.length > 0) setActiveRole(roleList[0].roleName);
+    if (!activeRole && roleList.length > 0) setActiveRole(roleList[0].roleName ?? "");
     setLoading(false);
   }
   useEffect(() => { void load(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, []);
@@ -72,8 +73,8 @@ export default function RoleVsMenuPage() {
     const existingForRole = rows.filter((r) => r.roleId === assignRoleId);
     const next: Record<number, DraftPerms> = {};
     allMenus.forEach((m) => {
-      const existing = existingForRole.find((r) => r.menuId === m.id);
-      next[m.id] = existing
+      const existing = existingForRole.find((r) => r.menuId === m.menuId);
+      next[m.menuId] = existing
         ? {
             permView: (existing.permView ?? "N") as any,
             permAdd: (existing.permAdd ?? "N") as any,
@@ -88,15 +89,16 @@ export default function RoleVsMenuPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dialogOpen, assignRoleId]);
 
-  const menusByType = useMemo(() => {
+  const menusByModule = useMemo(() => {
     const groups: Record<string, MenuModel[]> = {};
     allMenus.forEach((m) => {
-      if (m.menuType) {
-        (groups[m.menuType] ??= []).push(m);
-      }
+      const moduleKey = m.moduleName ?? "Other";
+      (groups[moduleKey] ??= []).push(m);
     });
     return groups;
   }, [allMenus]);
+
+  const moduleNames = useMemo(() => Object.keys(menusByModule).sort(), [menusByModule]);
 
   const mappedCount = Object.values(drafts).filter((d) => PERM_KEYS.some((p) => d[p.key] === "Y")).length;
 
@@ -112,12 +114,12 @@ export default function RoleVsMenuPage() {
   }
   function selectAllMenus() {
     const next: Record<number, DraftPerms> = {};
-    allMenus.forEach((m) => { next[m.id] = { permView: "Y", permAdd: "Y", permEdit: "Y", permDelete: "Y", permExport: "Y", permApprove: "Y" }; });
+    allMenus.forEach((m) => { next[m.menuId] = { permView: "Y", permAdd: "Y", permEdit: "Y", permDelete: "Y", permExport: "Y", permApprove: "Y" }; });
     setDrafts(next);
   }
   function clearAllMenus() {
     const next: Record<number, DraftPerms> = {};
-    allMenus.forEach((m) => { next[m.id] = { ...emptyPerms }; });
+    allMenus.forEach((m) => { next[m.menuId] = { ...emptyPerms }; });
     setDrafts(next);
   }
 
@@ -127,14 +129,14 @@ export default function RoleVsMenuPage() {
     try {
       let failCount = 0;
       for (const menu of allMenus) {
-        const draft = drafts[menu.id];
+        const draft = drafts[menu.menuId];
         if (!draft) continue;
         const hasAny = PERM_KEYS.some((p) => draft[p.key] === "Y");
-        const existing = rows.find((r) => r.roleId === assignRoleId && r.menuId === menu.id);
+        const existing = rows.find((r) => r.roleId === assignRoleId && r.menuId === menu.menuId);
         if (!hasAny && !existing) continue; // nothing to do - never had permissions, still none
         const result = await roleMenuApi.save({
           roleMenuId: existing?.roleMenuId ?? 0, roleId: assignRoleId as number, roleName: null,
-          moduleId: menu.moduleId ?? 0, moduleName: null, menuId: menu.id, menuName: null,
+          moduleId: menu.moduleId ?? 0, moduleName: null, menuId: menu.menuId, menuName: null,
           ...draft, restrictedColumns: existing?.restrictedColumns ?? null,
         });
         if (!result.success) failCount++;
@@ -162,9 +164,9 @@ export default function RoleVsMenuPage() {
       {!loading && (
         <div className="flex items-center gap-1.5 mb-4 flex-wrap">
           {roles.map((r) => (
-            <button key={r.roleId} onClick={() => setActiveRole(r.roleName)}
+            <button key={r.roleId} onClick={() => setActiveRole(r.roleName ?? "")}
               className={`px-3 py-1.5 rounded text-xs font-semibold transition-colors cursor-pointer ${activeRole === r.roleName ? "bg-slate-900 text-white" : "bg-white text-slate-700 border border-slate-300 hover:bg-slate-50"}`}>
-              {r.roleName}
+              {roleLabel(r)}
             </button>
           ))}
         </div>
@@ -226,7 +228,7 @@ export default function RoleVsMenuPage() {
               <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1.5">Role</label>
               <select value={assignRoleId} onChange={(e) => setAssignRoleId(Number(e.target.value))}
                 className="w-full px-3 py-2 text-sm rounded border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500">
-                {roles.map((r) => <option key={r.roleId} value={r.roleId}>{r.roleName}</option>)}
+                {roles.map((r) => <option key={r.roleId} value={r.roleId}>{roleLabel(r)}</option>)}
               </select>
             </div>
 
@@ -239,25 +241,25 @@ export default function RoleVsMenuPage() {
             </div>
 
             <div className="flex-1 overflow-y-auto px-6 py-4">
-              {TYPE_ORDER.filter((t) => menusByType[t]?.length).map((type) => (
-                <div key={type} className="mb-5">
-                  <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-2">{TYPE_LABELS[type]}</div>
+              {moduleNames.map((moduleName) => (
+                <div key={moduleName} className="mb-5">
+                  <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-2">{moduleName}</div>
                   <div className="space-y-1.5">
-                    {(menusByType[type] || []).map((menu: MenuModel) => {
-                      const draft = drafts[menu.id];
+                    {(menusByModule[moduleName] || []).map((menu: MenuModel) => {
+                      const draft = drafts[menu.menuId];
                       if (!draft) return null;
                       const allOn = PERM_KEYS.every((p) => draft[p.key] === "Y");
                       return (
-                        <div key={menu.id} className="flex items-center justify-between py-1">
+                        <div key={menu.menuId} className="flex items-center justify-between py-1">
                           <span className="text-sm text-slate-800">{menu.displayName}</span>
                           <div className="flex items-center gap-1">
                             {PERM_KEYS.slice(0, 4).map((p) => (
-                              <button key={p.key} onClick={() => toggleDraftPerm(menu.id, p.key)}
+                              <button key={p.key} onClick={() => toggleDraftPerm(menu.menuId, p.key)}
                                 className={`px-2 py-1 text-[10px] font-mono font-bold rounded border transition-colors cursor-pointer ${draft[p.key] === "Y" ? "bg-blue-600 text-white border-blue-600" : "bg-white text-slate-500 border-slate-300"}`}>
                                 {p.label.slice(0, 3)}
                               </button>
                             ))}
-                            <button onClick={() => toggleAllForMenu(menu.id)}
+                            <button onClick={() => toggleAllForMenu(menu.menuId)}
                               className={`px-2 py-1 text-[10px] font-mono font-bold rounded border transition-colors cursor-pointer ${allOn ? "bg-slate-900 text-white border-slate-900" : "bg-white text-slate-500 border-slate-300"}`}>
                                 ALL
                             </button>

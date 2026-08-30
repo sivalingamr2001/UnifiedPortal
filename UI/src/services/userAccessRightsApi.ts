@@ -9,7 +9,7 @@ export const userAccessRightsApi = {
     });
     return res.data;
   },
-  getByUser: async (userId: number) => {
+  getByUser: async (userId: number): Promise<UserAccessRightsModel> => {
     const res = await apiClient.post<{ data: any[] }>("/query/execute", {
       queryNumber: 117,
       inputParameters: { UserId: userId }

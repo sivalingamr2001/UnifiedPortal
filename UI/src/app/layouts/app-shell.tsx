@@ -2,6 +2,7 @@ import { useAuth } from "@/app/context/AuthContext"
 import { THEMES, useTheme } from "@/app/context/ThemeContext"
 import type { MenuModel } from "@/types/models"
 import { useEffect, useState } from "react"
+import { getModuleMenuConfig } from "@/shared/lib/constants"
 
 import { LayoutGrid } from "lucide-react"
 import { Outlet, useLocation, useNavigate } from "react-router-dom"
@@ -99,6 +100,15 @@ export function AppShell() {
   }, [sidebarHint])
 
   useEffect(() => {
+    if (location.pathname.includes("/admin")) {
+      const { menus } = getModuleMenuConfig("admin");
+      const nextNavigation = buildSidebarNavigation("Admin", menus);
+      setNavigation(nextNavigation);
+      setModuleName("Admin");
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
     const handleModuleMenus = (event: Event) => {
       const detail = (
         event as CustomEvent<{
@@ -121,7 +131,14 @@ export function AppShell() {
         location.pathname === "/unified-portal/" ||
         location.pathname === "/unified-portal"
 
-      const defaultRoute = findDefaultMenuRoute(nextNavigation, detail.defaultMenu ?? null)
+      let defaultRoute = findDefaultMenuRoute(nextNavigation, detail.defaultMenu ?? null)
+      if (!defaultRoute && nextNavigation.length > 0) {
+        const firstItem = nextNavigation[0];
+        defaultRoute = firstItem.children && firstItem.children.length > 0
+          ? firstItem.children[0].to
+          : firstItem.to;
+      }
+
       if (detail.source === "auto" && isRootDashboard) {
         setSidebarOpen(true)
         return

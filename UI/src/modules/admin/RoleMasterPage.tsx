@@ -16,6 +16,7 @@ const SOURCE_STYLES: Record<string, string> = {
 };
 
 const emptyRole: Partial<RoleModel> = { sourceType: "USER", status: "ACTIVE" };
+const roleLabel = (role: Partial<RoleModel>) => role.roleName || role.roleCode || "Unnamed role";
 
 export default function RoleMasterPage() {
   const { showToast } = useToast();
@@ -35,9 +36,12 @@ export default function RoleMasterPage() {
   }
   useEffect(() => { void load(); }, []);
 
-  const filtered = roles.filter(
-    (r) => r.roleName.toLowerCase().includes(search.toLowerCase()) || (r.roleCode ?? "").toLowerCase().includes(search.toLowerCase()),
-  );
+  const normalizedSearch = search.toLowerCase();
+  const filtered = roles.filter((r) => {
+    const roleName = r.roleName ?? "";
+    const roleCode = r.roleCode ?? "";
+    return roleName.toLowerCase().includes(normalizedSearch) || roleCode.toLowerCase().includes(normalizedSearch);
+  });
 
   function openCreate() {
     setEditing(emptyRole);
@@ -123,7 +127,7 @@ export default function RoleMasterPage() {
                   <tr key={r.roleId} className="border-b border-slate-100 hover:bg-blue-50/50 transition-colors duration-100 group">
                     <td className="px-3 py-2.5 font-mono text-[11px] text-slate-700">{i + 1}</td>
                     <td className="px-3 py-2.5 font-mono text-[11px]"><span className="text-blue-700 font-bold">{r.roleCode ?? "—"}</span></td>
-                    <td className="px-3 py-2.5"><span className="text-slate-900 font-semibold">{r.roleName}</span></td>
+                    <td className="px-3 py-2.5"><span className="text-slate-900 font-semibold">{roleLabel(r)}</span></td>
                     <td className="px-3 py-2.5">
                       <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded font-bold border ${style}`}>
                         {source.charAt(0) + source.slice(1).toLowerCase()}

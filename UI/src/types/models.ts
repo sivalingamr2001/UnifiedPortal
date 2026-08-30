@@ -62,6 +62,8 @@ export interface UserModel {
   loginToTime: string
   allowedMachines: string | null
   allowedIps: string | null
+  digitalSigFile?: string | null
+  digitalSigPwdEnc?: string | null
 }
 
 export interface RoleMenuModel {

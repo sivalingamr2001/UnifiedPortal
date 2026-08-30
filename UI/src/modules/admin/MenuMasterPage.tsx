@@ -24,7 +24,7 @@ function sortIntoTree(menus: MenuModel[]): { menu: MenuModel; depth: number }[] 
   function walk(parentId: number | null, depth: number) {
     for (const m of byParent.get(parentId) ?? []) {
       result.push({ menu: m, depth });
-      walk(m.menuId ?? m.id, depth + 1);
+      walk(m.menuId, depth + 1);
     }
   }
   walk(null, 0);
