@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ERSQNOQXXnE=",
+  "dgSpecHash": "T9EPuabcVTY=",
   "success": true,
-  "projectFilePath": "D:\\UnifiedPortalV2\\Janatics.Api\\Web\\JanaticsAdminPortal.API.csproj",
+  "projectFilePath": "D:\\UnifiedPortal\\Janatics.Api\\Web\\JanaticsAdminPortal.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\1409\\.nuget\\packages\\dapper\\2.1.79\\dapper.2.1.79.nupkg.sha512",
     "C:\\Users\\1409\\.nuget\\packages\\dapper.oracle\\2.0.2\\dapper.oracle.2.0.2.nupkg.sha512",

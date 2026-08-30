@@ -153,3 +153,15 @@ D:\UnifiedPortalV2\Janatics.Api\Web\obj\Debug\net9.0\JanaticsAdminPortal.API.pdb
 D:\UnifiedPortalV2\Janatics.Api\Web\obj\Debug\net9.0\JanaticsAdminPortal.API.genruntimeconfig.cache
 D:\UnifiedPortalV2\Janatics.Api\Web\obj\Debug\net9.0\ref\JanaticsAdminPortal.API.dll
 D:\UnifiedPortalV2\Janatics.Api\Web\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+D:\UnifiedPortal\Janatics.Api\Web\obj\Debug\net9.0\JanaticsAdminPortal.API.csproj.AssemblyReference.cache
+D:\UnifiedPortal\Janatics.Api\Web\obj\Debug\net9.0\rpswa.dswa.cache.json
+D:\UnifiedPortal\Janatics.Api\Web\obj\Debug\net9.0\JanaticsAdminPortal.API.GeneratedMSBuildEditorConfig.editorconfig
+D:\UnifiedPortal\Janatics.Api\Web\obj\Debug\net9.0\JanaticsAdminPortal.API.AssemblyInfoInputs.cache
+D:\UnifiedPortal\Janatics.Api\Web\obj\Debug\net9.0\JanaticsAdminPortal.API.AssemblyInfo.cs
+D:\UnifiedPortal\Janatics.Api\Web\obj\Debug\net9.0\JanaticsAdminPortal.API.csproj.CoreCompileInputs.cache
+D:\UnifiedPortal\Janatics.Api\Web\obj\Debug\net9.0\JanaticsAdminPortal.API.MvcApplicationPartsAssemblyInfo.cs
+D:\UnifiedPortal\Janatics.Api\Web\obj\Debug\net9.0\JanaticsAdminPortal.API.MvcApplicationPartsAssemblyInfo.cache
+D:\UnifiedPortal\Janatics.Api\Web\obj\Debug\net9.0\JanaticsAdminPortal.API.sourcelink.json
+D:\UnifiedPortal\Janatics.Api\Web\obj\Debug\net9.0\JanaticsAdminPortal.API.dll
+D:\UnifiedPortal\Janatics.Api\Web\obj\Debug\net9.0\refint\JanaticsAdminPortal.API.dll
+D:\UnifiedPortal\Janatics.Api\Web\obj\Debug\net9.0\JanaticsAdminPortal.API.pdb

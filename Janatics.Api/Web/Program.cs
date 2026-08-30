@@ -29,6 +29,8 @@ builder.Host.UseSerilog((ctx, cfg) => cfg
 // repository below) and OracleDb (resilient raw-command access, kept
 // available separately - not currently used by any repository).
 // ---------------------------------------------------------------------
+builder.Services.AddControllers()
+        .AddNewtonsoftJson();
 builder.Services.AddSingleton<IDbConnectionFactory, OracleConnectionFactory>();
 builder.Services.AddSingleton<OracleDb>();
 

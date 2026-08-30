@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JanaticsAdminPortal.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e4df4b1242dd8958d53993c0ac37245d08b24e47")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+80e3a1cebec439b5f04f5bb3e54ac6132d37bc4a")]
 [assembly: System.Reflection.AssemblyProductAttribute("JanaticsAdminPortal.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JanaticsAdminPortal.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

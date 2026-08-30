@@ -2636,11 +2636,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\UnifiedPortalV2\\Janatics.Api\\Web\\JanaticsAdminPortal.API.csproj",
+      "projectUniqueName": "D:\\UnifiedPortal\\Janatics.Api\\Web\\JanaticsAdminPortal.API.csproj",
       "projectName": "JanaticsAdminPortal.API",
-      "projectPath": "D:\\UnifiedPortalV2\\Janatics.Api\\Web\\JanaticsAdminPortal.API.csproj",
+      "projectPath": "D:\\UnifiedPortal\\Janatics.Api\\Web\\JanaticsAdminPortal.API.csproj",
       "packagesPath": "C:\\Users\\1409\\.nuget\\packages\\",
-      "outputPath": "D:\\UnifiedPortalV2\\Janatics.Api\\Web\\obj\\",
+      "outputPath": "D:\\UnifiedPortal\\Janatics.Api\\Web\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -2662,8 +2662,8 @@
           "framework": "net9.0",
           "targetAlias": "net9.0",
           "projectReferences": {
-            "D:\\UnifiedPortalV2\\Janatics.Api\\DynamicTransaction\\DynamicTransaction.csproj": {
-              "projectPath": "D:\\UnifiedPortalV2\\Janatics.Api\\DynamicTransaction\\DynamicTransaction.csproj"
+            "D:\\UnifiedPortal\\Janatics.Api\\DynamicTransaction\\DynamicTransaction.csproj": {
+              "projectPath": "D:\\UnifiedPortal\\Janatics.Api\\DynamicTransaction\\DynamicTransaction.csproj"
             }
           }
         }
