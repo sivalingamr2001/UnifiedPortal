@@ -1,7 +1,7 @@
 
 import { Building2, ChevronDown, Search, ShieldAlert } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
 import type { CommodityData } from "../api/commodityApi";
 
 export interface FilterState {

@@ -7,7 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/shared/components/ui/select"
+} from "@/shared/ui/select"
 import { useMemo } from "react"
 
 export type FilterFocus = "all" | "key"

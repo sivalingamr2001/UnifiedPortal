@@ -1,4 +1,4 @@
-import Logo from "@/lib/utils"
+import Logo from "@/shared/lib/constants"
 import { Zap, Clock, UsersRound } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { Outlet } from "react-router-dom"

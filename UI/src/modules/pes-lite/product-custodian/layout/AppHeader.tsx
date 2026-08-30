@@ -1,4 +1,4 @@
-import { PESLOGO } from "@/lib/utils";
+import PESLOGO from "@/shared/lib/constants";
 import { Box, Clock, House, Layers, RefreshCcw, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 

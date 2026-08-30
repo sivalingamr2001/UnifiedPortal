@@ -165,7 +165,7 @@ export const DashboardPage = () => {
 
   if (error) {
     return (
-      <div className="flex h-screen flex-col items-center justify-center gap-4 text-center">
+      <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
         <p className="text-red-500 font-semibold">Database Error: {error}</p>
         <button onClick={() => void refreshData()} className="rounded-lg bg-primary px-4 py-2 text-white shadow-sm hover:opacity-90">
           Retry Connection
@@ -175,7 +175,7 @@ export const DashboardPage = () => {
   }
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden">
+    <div className="flex h-full flex-col overflow-hidden">
       <StatCards
         custodianName={selectedCustodian ?? ""}
         orgId={selectedOrgId === "ALL" ? "" : String(selectedOrgId)}

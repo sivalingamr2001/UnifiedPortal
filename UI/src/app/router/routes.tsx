@@ -18,6 +18,25 @@ import RoleVsMenuPage from "@/modules/admin/RoleVsMenuPage"
 import UserAccessRightsPage from "@/modules/admin/UserAccessRightsPage"
 import UserHierarchyPage from "@/modules/admin/UserHierarchyPage"
 
+// PES and PESLite module components
+import PlanningExecutionControlTower from "@/modules/pes/PlanningExecutionControlTower"
+import { PesProvider } from "@/modules/pes-lite/product-custodian/context/PesProvider"
+import { DashboardPage as ProductCustodianDashboard } from "@/modules/pes-lite/product-custodian/pages/DashboardPage"
+import { CommodityProvider } from "@/modules/pes-lite/commodity-custodian/context/CommodityProvider"
+import { DashboardPage as CommodityCustodianDashboard } from "@/modules/pes-lite/commodity-custodian/pages/DashboardPage"
+
+const ProductCustodianWrapped = () => (
+  <PesProvider>
+    <ProductCustodianDashboard />
+  </PesProvider>
+)
+
+const CommodityCustodianWrapped = () => (
+  <CommodityProvider>
+    <CommodityCustodianDashboard />
+  </CommodityProvider>
+)
+
 function MenuComingSoonPage() {
   const { menuSlug } = useParams()
   const label = menuSlug ? menuSlug.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()) : "Menu"
@@ -82,6 +101,16 @@ export function AppRoutes() {
           <Route path="user-access-rights" element={<UserAccessRightsPage />} />
           <Route path="user-hierarchy" element={<UserHierarchyPage />} />
         </Route>
+
+        {/* PES Module Dynamic Routes */}
+        <Route path="pes/planning-execution-control" element={<PlanningExecutionControlTower />} />
+        <Route path="pes/dashboards/planning-execution-control" element={<PlanningExecutionControlTower />} />
+
+        {/* PESLite Module Dynamic Routes */}
+        <Route path="peslite/product-custodian" element={<ProductCustodianWrapped />} />
+        <Route path="pes-lite/product-custodian" element={<ProductCustodianWrapped />} />
+        <Route path="peslite/commodity-custodian" element={<CommodityCustodianWrapped />} />
+        <Route path="pes-lite/commodity-custodian" element={<CommodityCustodianWrapped />} />
 
         {/* Dynamic routes for other modules */}
         <Route path=":moduleSlug" element={<MenuComingSoonPage />} />
