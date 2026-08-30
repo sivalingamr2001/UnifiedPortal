@@ -3,7 +3,7 @@ import { menusApi } from "@/services/menusApi";
 import { modulesApi } from "@/services/modulesApi";
 import { roleMenuApi } from "@/services/roleMenuApi";
 import { GetIcon } from "@/shared/components/GetIcon";
-import { getModuleMenuConfig } from "@/shared/lib/constants";
+
 import {
   normalizeMenus,
   normalizeModuleAccess,
@@ -73,21 +73,7 @@ function DashboardPage() {
       const moduleName = currentModule?.moduleName ?? "Module";
       const moduleKey = (currentModule?.moduleCode ?? moduleName).trim().toLowerCase();
 
-      if (moduleKey.includes("admin")) {
-        const { menus, defaultMenu } = getModuleMenuConfig("admin");
 
-        window.dispatchEvent(
-          new CustomEvent("portal:module-menus", {
-            detail: {
-              menus,
-              moduleName,
-              defaultMenu,
-              source,
-            },
-          }),
-        );
-        return;
-      }
 
       const menusRes = await apiClient.post<any>("/query/execute", {
         queryNumber: 119,
