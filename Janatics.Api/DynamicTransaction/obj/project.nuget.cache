@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jKb95AxG7Zo=",
+  "dgSpecHash": "9FNjEDnyw8o=",
   "success": true,
-  "projectFilePath": "D:\\UnifiedPortalV2\\Janatics.Api\\DynamicTransaction\\DynamicTransaction.csproj",
+  "projectFilePath": "d:\\UnifiedPortal\\Janatics.Api\\DynamicTransaction\\DynamicTransaction.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\1409\\.nuget\\packages\\dapper\\2.1.79\\dapper.2.1.79.nupkg.sha512",
     "C:\\Users\\1409\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.10\\microsoft.extensions.dependencyinjection.abstractions.10.0.10.nupkg.sha512",

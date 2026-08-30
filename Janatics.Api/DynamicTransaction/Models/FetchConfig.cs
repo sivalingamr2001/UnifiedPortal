@@ -1,10 +1,12 @@
+using Newtonsoft.Json.Linq;
+
 namespace DynamicTransaction.Models;
 
 public class FetchConfig
 {
     public int QueryNumber { get; set; }
 
-    public Dictionary<string, object?>? InputParameters { get; set; } = new();
+    public JObject InputParameters { get; set; } = new();
 
     public int Count { get; set; } = 10;
     public int PageNumber { get; set; } = 1;

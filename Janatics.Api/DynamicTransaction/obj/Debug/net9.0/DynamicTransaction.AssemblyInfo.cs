@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DynamicTransaction")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8a0e1f4f08edccee8aa5923f88cc6cdf8c4b69d4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e4df4b1242dd8958d53993c0ac37245d08b24e47")]
 [assembly: System.Reflection.AssemblyProductAttribute("DynamicTransaction")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DynamicTransaction")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
