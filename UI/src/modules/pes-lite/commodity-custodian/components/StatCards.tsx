@@ -61,7 +61,7 @@ export const StatCards: React.FC<StatCardsProps> = ({ data, loading }) => {
         {CARDS.map((c) => (
           <div 
             key={c.key} 
-            className="flex-1 flex flex-col overflow-hidden rounded-[8px] border border-slate-200 bg-slate-50/50 shadow-sm h-[108px]" 
+            className="flex-1 flex flex-col overflow-hidden rounded-[8px] border border-[rgb(var(--color-line))] bg-[rgb(var(--color-surface2))] shadow-sm h-[108px]" 
           />
         ))}
       </div>
@@ -80,7 +80,7 @@ export const StatCards: React.FC<StatCardsProps> = ({ data, loading }) => {
         const isOverdueOk = overdue === 0 && c.okWhenZero;
 
         return (
-          <div key={c.key} className="flex-1 flex flex-col overflow-hidden rounded-[8px] border border-slate-200 bg-white shadow-sm">
+          <div key={c.key} className="flex-1 flex flex-col overflow-hidden rounded-[8px] border border-[rgb(var(--color-line))] bg-[rgb(var(--color-surface))] shadow-sm">
             {/* Top Accent Gradient Bar */}
             <div className="h-[3px]" style={{ background: c.gradient }} />
             
@@ -89,18 +89,18 @@ export const StatCards: React.FC<StatCardsProps> = ({ data, loading }) => {
               {/* Header Label */}
               <div className="flex items-center gap-1.5">
                 <ChartNoAxesColumn
-                  className={`shrink-0 ${c.iconColor}`}
+                   className={`shrink-0 ${c.iconColor}`}
                   size={13}
                   strokeWidth={2}
                 />
-                <span className="text-[11px] font-black tracking-widest text-slate-400 uppercase">
+                <span className="text-[11px] font-black tracking-widest text-[rgb(var(--color-muted))] uppercase">
                   {c.label}
                 </span>
               </div>
 
               {/* Primary Main Metric */}
               <div className="flex items-baseline gap-1 my-0.5">
-                <span className="text-[26px] leading-none font-black text-slate-800">
+                <span className="text-[26px] leading-none font-black text-[rgb(var(--color-ink))]">
                   {total.toLocaleString()}
                 </span>
               </div>
@@ -112,17 +112,17 @@ export const StatCards: React.FC<StatCardsProps> = ({ data, loading }) => {
                   <span className={`font-black ${isShortageOk ? "text-emerald-600" : "text-red-700"}`}>
                     {isShortageOk ? "OK" : shortage.toLocaleString()}
                   </span>
-                  <span className="text-slate-400 uppercase tracking-wider text-[9px] font-bold">Short</span>
+                  <span className="text-[rgb(var(--color-muted))] uppercase tracking-wider text-[9px] font-bold">Short</span>
                 </span>
                 
-                <span className="text-slate-200">|</span>
+                <span className="text-[rgb(var(--color-line))]">|</span>
                 
                 {/* Overdue/Pending Item */}
                 <span className="flex flex-col">
                   <span className={`font-black ${isOverdueOk ? "text-slate-400" : "text-amber-700"}`}>
                     {isOverdueOk ? "SCHED" : overdue.toLocaleString()}
                   </span>
-                  <span className="text-slate-400 uppercase tracking-wider text-[9px] font-bold">Overdue</span>
+                  <span className="text-[rgb(var(--color-muted))] uppercase tracking-wider text-[9px] font-bold">Overdue</span>
                 </span>
               </div>
             </div>

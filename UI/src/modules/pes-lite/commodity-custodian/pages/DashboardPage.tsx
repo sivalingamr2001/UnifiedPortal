@@ -48,11 +48,11 @@ export const DashboardPage = () => {
   const handleFilterChange = useCallback((next: FilterState) => setFilters(next), []);
 
   return (
-    <div className="flex w-full flex-col gap-4 p-1.5 bg-slate-50/50 min-h-full">
+    <div className="flex w-full flex-col gap-4 p-1.5 bg-[rgb(var(--color-bg))] min-h-full text-[rgb(var(--color-ink))]">
       <StatCards data={dashboardMetrics} loading={loading} />
 
 
-      <div className="flex flex-1 min-h-0 w-full flex-col rounded-[6px] border border-slate-100 bg-white shadow-[0_4px_12px_-2px_rgba(0,0,0,0.03)] overflow-hidden">
+      <div className="flex flex-1 min-h-0 w-full flex-col rounded-[6px] border border-[rgb(var(--color-line))] bg-[rgb(var(--color-surface))] shadow-[0_4px_12px_-2px_rgba(0,0,0,0.03)] overflow-hidden">
         {error ? (
           <div className="flex w-full items-center justify-center p-4 text-center">
             <span className="text-xs font-bold text-red-500 bg-red-50 border border-red-100 px-3 py-1.5 rounded-lg">{error}</span>

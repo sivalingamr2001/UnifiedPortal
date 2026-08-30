@@ -210,7 +210,7 @@ export const DashboardPage = () => {
         )}
 
         {activeTab === "items" && selectedItem && (
-          <div className="flex h-[calc(100vh-250px)] flex-col overflow-hidden rounded-b-[10px] border border-slate-100 bg-white shadow-[0_12px_24px_-4px_rgba(0,0,0,0.02)]">
+          <div className="flex h-[calc(100vh-250px)] flex-col overflow-hidden rounded-b-[10px] border border-[rgb(var(--color-line))] bg-[rgb(var(--color-surface))] shadow-[0_12px_24px_-4px_rgba(0,0,0,0.02)]">
             <ItemDetails
               item={selectedItem}
               itemDetails={selectedItemDetails}
