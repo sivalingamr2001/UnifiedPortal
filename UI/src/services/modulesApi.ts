@@ -14,7 +14,7 @@ export const modulesApi = {
       queryNumber: 102,
       inputParameters: { ModuleId: id }
     });
-    return res.data[0];
+    return res.data ;
   },
   create: async (data: Partial<ModuleModel>) => {
     const res = await apiClient.post<any>("/transaction/execute", {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { Breadcrumbs } from '../../shell/Breadcrumbs';
-import { useAuth } from '../auth/useAuth';
+import { useAuth } from '@/app/context/AuthContext';
 import { RotateCw, Menu } from 'lucide-react';
 
 export const AdminLayout: React.FC = () => {
@@ -53,10 +53,10 @@ export const AdminLayout: React.FC = () => {
             {user && (
               <div className="flex items-center gap-1.5">
                 <div className="w-5.5 h-5.5 rounded-full flex items-center justify-center text-[9px] font-bold text-white bg-violet-600">
-                  {getInitial(user.name)}
+                  {getInitial(user.userName)}
                 </div>
                 <div className="hidden md:block">
-                  <div className="text-[10px] text-slate-900 font-bold leading-tight">{user.name}</div>
+                  <div className="text-[10px] text-slate-900 font-bold leading-tight">{user.userName}</div>
                   <div className="text-[8px] font-mono text-slate-500 leading-none">{user.role}</div>
                 </div>
               </div>

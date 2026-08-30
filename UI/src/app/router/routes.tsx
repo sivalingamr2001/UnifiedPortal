@@ -7,6 +7,17 @@ import { ProtectedRoute } from "@/app/router/protected-route"
 import { LoginPage } from "@/modules/auth/LoginPage"
 import DashboardPage from "@/modules/dashboard/DashboardPage"
 
+// Admin module components
+import { AdminLayout } from "@/modules/admin/AdminLayout"
+import { UserMasterPage } from "@/modules/admin/UserMasterPage"
+import { RoleMasterPage } from "@/modules/admin/RoleMasterPage"
+import { ModuleMasterPage } from "@/modules/admin/ModuleMasterPage"
+import { MenuMasterPage } from "@/modules/admin/MenuMasterPage"
+import { RoleVsModulePage } from "@/modules/admin/RoleVsModulePage"
+import { RoleVsMenuPage } from "@/modules/admin/RoleVsMenuPage"
+import { UserAccessRightsPage } from "@/modules/admin/UserAccessRightsPage"
+import { UserHierarchyPage } from "@/modules/admin/UserHierarchyPage"
+
 function MenuComingSoonPage() {
   const { menuSlug } = useParams()
   const label = menuSlug ? menuSlug.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()) : "Menu"
@@ -30,7 +41,10 @@ function ModuleRouteGuard({ children }: { children: ReactNode }) {
   const { user } = useAuth()
 
   if (!user) return <Navigate to="/login" replace />
-  if (user.role?.toLowerCase() !== "superadmin") return <Navigate to="/" replace />
+  const role = user.role?.toLowerCase()
+  if (role !== "superadmin" && role !== "administrator" && role !== "admin") {
+    return <Navigate to="/" replace />
+  }
 
   return <>{children}</>
 }
@@ -48,19 +62,30 @@ export function AppRoutes() {
         }
       >
         <Route index element={<DashboardPage />} />
-        <Route path=":moduleSlug" element={<MenuComingSoonPage />} />
-        <Route path=":moduleSlug/:menuSlug" element={<MenuComingSoonPage />} />
 
+        {/* Specific Admin layout and inner workspace pages */}
         <Route
           path="admin"
           element={
             <ModuleRouteGuard>
-              <div className="flex h-full items-center justify-center p-6 text-sm text-[rgb(var(--color-muted))]">
-                Access management is available for the admin module.
-              </div>
+              <AdminLayout />
             </ModuleRouteGuard>
           }
-        />
+        >
+          <Route index element={<Navigate to="user-master" replace />} />
+          <Route path="user-master" element={<UserMasterPage />} />
+          <Route path="role-master" element={<RoleMasterPage />} />
+          <Route path="module-master" element={<ModuleMasterPage />} />
+          <Route path="menu-master" element={<MenuMasterPage />} />
+          <Route path="role-vs-module" element={<RoleVsModulePage />} />
+          <Route path="role-vs-menu" element={<RoleVsMenuPage />} />
+          <Route path="user-access-rights" element={<UserAccessRightsPage />} />
+          <Route path="user-hierarchy" element={<UserHierarchyPage />} />
+        </Route>
+
+        {/* Dynamic routes for other modules */}
+        <Route path=":moduleSlug" element={<MenuComingSoonPage />} />
+        <Route path=":moduleSlug/:menuSlug" element={<MenuComingSoonPage />} />
 
         <Route path="settings" element={<DashboardPage />} />
       </Route>
@@ -69,4 +94,3 @@ export function AppRoutes() {
     </Routes>
   )
 }
-

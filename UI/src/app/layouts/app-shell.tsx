@@ -145,7 +145,7 @@ export function AppShell() {
     THEMES[(THEMES.findIndex((item) => item.id === theme) + 1) % THEMES.length]
 
   const displayName = user?.userName ?? "John Carter"
-  const userEmail = user
+  const userEmail = user && typeof user.userName === "string"
     ? `${user.userName.toLowerCase().replace(/\s+/g, ".")}@janatics.com`
     : "john.carter@janatics.com"
 

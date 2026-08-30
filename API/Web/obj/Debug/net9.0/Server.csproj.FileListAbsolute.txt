@@ -66,3 +66,8 @@
 /Users/sivalingam/Documents/GitHub/UnifiedPortal/API/Web/obj/Debug/net9.0/Server.genruntimeconfig.cache
 /Users/sivalingam/Documents/GitHub/UnifiedPortal/API/Web/obj/Debug/net9.0/ref/Server.dll
 /Users/sivalingam/Documents/GitHub/UnifiedPortal/API/Web/bin/Debug/net9.0/MySqlConnector.dll
+/Users/sivalingam/Documents/GitHub/UnifiedPortal/API/Web/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/sivalingam/Documents/GitHub/UnifiedPortal/API/Web/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/sivalingam/Documents/GitHub/UnifiedPortal/API/Web/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll
+/Users/sivalingam/Documents/GitHub/UnifiedPortal/API/Web/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll
+/Users/sivalingam/Documents/GitHub/UnifiedPortal/API/Web/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll

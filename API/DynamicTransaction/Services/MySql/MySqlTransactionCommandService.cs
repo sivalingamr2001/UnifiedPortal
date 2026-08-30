@@ -9,6 +9,7 @@ using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace DynamicTransaction.Services.MySql;
 
@@ -63,7 +64,7 @@ public sealed class MySqlTransactionCommandService : ITransactionCommandService
                 "USER_ID", "USER_CODE", "EMPLOYEE_ID", "FULL_NAME", "USER_NAME", "PASSWORD_HASH", "PASSWORD_SALT", "USER_TYPE", "SECURITY_LEVEL",
                 "ROLE_ID", "VALID_FROM", "VALID_TO", "STATUS", "PRIMARY_EMAIL", "PRIMARY_MOBILE", "PASSWORD_POLICY", "WORK_OPERATING_UNIT",
                 "THEME", "TIMEZONE", "MAX_SESSIONS", "LOGIN_WORKDAYS_ONLY", "LOGIN_FROM_TIME", "LOGIN_TO_TIME", "ALLOWED_MACHINES", "ALLOWED_IPS",
-                "CREATED_BY", "CREATED_DATE", "MODIFIED_BY", "MODIFIED_DATE", "REPORTING_TO"
+                "CREATED_BY", "CREATED_DATE", "MODIFIED_BY", "MODIFIED_DATE", "REPORTING_TO", "PASSWORD"
             }
         },
         ["RoleMenu"] = new()
@@ -217,6 +218,32 @@ public sealed class MySqlTransactionCommandService : ITransactionCommandService
                         }
                         mainPropsDict[prop.Name] = ConvertJTokenToValue(prop.Value);
                     }
+
+                    // Handle password hashing if provided (ISO/IEC 18033-5 PBKDF2 compliant)
+                    string? rawPassword = null;
+                    if (mainPropsDict.TryGetValue("password", out var pwdVal) && pwdVal is string pwdStr && !string.IsNullOrWhiteSpace(pwdStr))
+                    {
+                        rawPassword = pwdStr;
+                    }
+                    else if (mainPropsDict.TryGetValue("PASSWORD", out var pwdVal2) && pwdVal2 is string pwdStr2 && !string.IsNullOrWhiteSpace(pwdStr2))
+                    {
+                        rawPassword = pwdStr2;
+                    }
+
+                    if (rawPassword != null)
+                    {
+                        byte[] saltBytes = RandomNumberGenerator.GetBytes(16);
+                        string salt = Convert.ToBase64String(saltBytes);
+                        using var pbkdf2 = new Rfc2898DeriveBytes(rawPassword, saltBytes, 10000, HashAlgorithmName.SHA256);
+                        string hash = Convert.ToBase64String(pbkdf2.GetBytes(32));
+
+                        mainPropsDict["PASSWORD_HASH"] = hash;
+                        mainPropsDict["PASSWORD_SALT"] = salt;
+                    }
+
+                    // Remove raw password fields so they don't get matched to DB columns
+                    mainPropsDict.Remove("password");
+                    mainPropsDict.Remove("PASSWORD");
 
                     if (operation == "Create")
                     {
