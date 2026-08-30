@@ -1,7 +1,7 @@
 {
-  "version": 4,
+  "version": 3,
   "targets": {
-    "net8.0": {
+    "net9.0": {
       "Dapper/2.1.79": {
         "type": "package",
         "compile": {
@@ -133,12 +133,12 @@
       "Microsoft.Extensions.DependencyInjection.Abstractions/10.0.10": {
         "type": "package",
         "compile": {
-          "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
             "related": ".xml"
           }
         },
@@ -257,12 +257,12 @@
           "System.Diagnostics.DiagnosticSource": "10.0.10"
         },
         "compile": {
-          "lib/net8.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.Logging.Abstractions.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.Logging.Abstractions.dll": {
             "related": ".xml"
           }
         },
@@ -368,12 +368,12 @@
       "Serilog/4.3.0": {
         "type": "package",
         "compile": {
-          "lib/net8.0/Serilog.dll": {
+          "lib/net9.0/Serilog.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/Serilog.dll": {
+          "lib/net9.0/Serilog.dll": {
             "related": ".xml"
           }
         },
@@ -594,12 +594,12 @@
       "System.Collections.Immutable/10.0.3": {
         "type": "package",
         "compile": {
-          "lib/net8.0/System.Collections.Immutable.dll": {
+          "lib/net9.0/System.Collections.Immutable.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/System.Collections.Immutable.dll": {
+          "lib/net9.0/System.Collections.Immutable.dll": {
             "related": ".xml"
           }
         },
@@ -630,12 +630,12 @@
       "System.Diagnostics.DiagnosticSource/10.0.10": {
         "type": "package",
         "compile": {
-          "lib/net8.0/System.Diagnostics.DiagnosticSource.dll": {
+          "lib/net9.0/System.Diagnostics.DiagnosticSource.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/System.Diagnostics.DiagnosticSource.dll": {
+          "lib/net9.0/System.Diagnostics.DiagnosticSource.dll": {
             "related": ".xml"
           }
         },
@@ -830,7 +830,7 @@
       },
       "DynamicTransaction/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v8.0",
+        "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
           "Dapper": "2.1.79",
           "Microsoft.Extensions.Logging.Abstractions": "10.0.10",
@@ -2490,7 +2490,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net8.0": [
+    "net9.0": [
       "DynamicTransaction >= 1.0.0",
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson >= 8.0.8",
       "Oracle.ManagedDataAccess.Core >= 23.26.300",
@@ -2499,40 +2499,32 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\1409\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/sivalingam/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\POC\\DynamicTransaction\\Web\\Server.csproj",
+      "projectUniqueName": "/Users/sivalingam/Documents/GitHub/UnifiedPortal/API/Web/Server.csproj",
       "projectName": "Server",
-      "projectPath": "D:\\POC\\DynamicTransaction\\Web\\Server.csproj",
-      "packagesPath": "C:\\Users\\1409\\.nuget\\packages\\",
-      "outputPath": "D:\\POC\\DynamicTransaction\\Web\\obj\\",
+      "projectPath": "/Users/sivalingam/Documents/GitHub/UnifiedPortal/API/Web/Server.csproj",
+      "packagesPath": "/Users/sivalingam/.nuget/packages/",
+      "outputPath": "/Users/sivalingam/Documents/GitHub/UnifiedPortal/API/Web/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\1409\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/sivalingam/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
-        "net8.0"
+        "net9.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net8.0": {
-          "framework": "net8.0",
-          "targetAlias": "net8.0",
+        "net9.0": {
+          "targetAlias": "net9.0",
           "projectReferences": {
-            "D:\\POC\\DynamicTransaction\\DynamicTransaction\\DynamicTransaction.csproj": {
-              "projectPath": "D:\\POC\\DynamicTransaction\\DynamicTransaction\\DynamicTransaction.csproj"
+            "/Users/sivalingam/Documents/GitHub/UnifiedPortal/API/DynamicTransaction/DynamicTransaction.csproj": {
+              "projectPath": "/Users/sivalingam/Documents/GitHub/UnifiedPortal/API/DynamicTransaction/DynamicTransaction.csproj"
             }
           }
         }
@@ -2547,12 +2539,11 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "10.0.300"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
-      "net8.0": {
-        "framework": "net8.0",
-        "targetAlias": "net8.0",
+      "net9.0": {
+        "targetAlias": "net9.0",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
             "target": "Package",
@@ -2585,19 +2576,15 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.28, 8.0.28]"
+            "version": "[9.0.15, 9.0.15]"
           },
           {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[8.0.28, 8.0.28]"
+            "name": "Microsoft.NETCore.App.Host.osx-arm64",
+            "version": "[9.0.15, 9.0.15]"
           },
           {
             "name": "Microsoft.NETCore.App.Ref",
-            "version": "[8.0.28, 8.0.28]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[8.0.28, 8.0.28]"
+            "version": "[9.0.15, 9.0.15]"
           }
         ],
         "frameworkReferences": {
@@ -2608,7 +2595,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
