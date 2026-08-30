@@ -1,7 +1,13 @@
 import React from "react";
 import { Info, ChevronLeft, ChevronRight } from "lucide-react";
+import type { ProductComplaintTableResult } from "../services/complaintApi";
 
-function Pct({ value, tone = "slate" }) {
+interface PctProps {
+  value: number;
+  tone?: "emerald" | "amber" | "red" | "slate" | "violet";
+}
+
+function Pct({ value, tone = "slate" }: PctProps) {
   const toneMap = {
     emerald: "text-emerald-600",
     amber: "text-amber-600",
@@ -12,7 +18,23 @@ function Pct({ value, tone = "slate" }) {
   return <span className={toneMap[tone]}>{value}%</span>;
 }
 
-export default function ProductComplaintTable({ result, loading, page, pageSize, onPageChange, onPageSizeChange }) {
+interface ProductComplaintTableProps {
+  result?: ProductComplaintTableResult | null;
+  loading: boolean;
+  page: number;
+  pageSize: number;
+  onPageChange: (page: number) => void;
+  onPageSizeChange: (pageSize: number) => void;
+}
+
+export default function ProductComplaintTable({
+  result,
+  loading,
+  page,
+  pageSize,
+  onPageChange,
+  onPageSizeChange,
+}: ProductComplaintTableProps) {
   const rows = result?.rows || [];
   const total = result?.total;
   const totalPages = result?.totalPages || 1;
@@ -53,7 +75,7 @@ export default function ProductComplaintTable({ result, loading, page, pageSize,
             {loading &&
               Array.from({ length: 5 }).map((_, i) => (
                 <tr key={i}>
-                  <td colSpan={11} className="px-3 py-3">
+                  <td colSpan={14} className="px-3 py-3">
                     <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
                   </td>
                 </tr>
@@ -61,7 +83,7 @@ export default function ProductComplaintTable({ result, loading, page, pageSize,
 
             {!loading && rows.length === 0 && (
               <tr>
-                <td colSpan={11} className="px-3 py-8 text-center text-sm text-slate-500">
+                <td colSpan={14} className="px-3 py-8 text-center text-sm text-slate-500">
                   No complaints in the selected WTD window.
                 </td>
               </tr>

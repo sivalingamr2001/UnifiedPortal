@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { AlertTriangle, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import { queryApi } from "@/api/endpoints";
+import { queryApi } from "../../../api/endpoints";
 
 type Category =
     | "Inventory"
@@ -178,7 +178,7 @@ export default function AlertListPage() {
             setLoading(true);
 
             const response = await queryApi.execute({
-                QueryNumber: 2,
+                QueryNumber: 122,
             });
 
             const apiData: any[] =

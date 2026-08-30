@@ -1,7 +1,14 @@
 import React from "react";
 import { Info, ArrowUp, ArrowDown } from "lucide-react";
+import type { ComplaintDashboardSummary } from "../services/complaintApi";
 
-function Delta({ value, suffix = "%", invertColor = false }) {
+interface DeltaProps {
+  value?: number | null;
+  suffix?: string;
+  invertColor?: boolean;
+}
+
+function Delta({ value, suffix = "%", invertColor = false }: DeltaProps) {
   if (value === 0 || value === undefined || value === null) {
     return <span className="text-slate-400">—</span>;
   }
@@ -19,7 +26,16 @@ function Delta({ value, suffix = "%", invertColor = false }) {
   );
 }
 
-function Card({ title, value, valueColor, footnote, delta, deltaLabel = "vs Last WTD" }) {
+interface CardProps {
+  title: string;
+  value: React.ReactNode;
+  valueColor?: string;
+  footnote?: React.ReactNode;
+  delta: React.ReactNode;
+  deltaLabel?: string;
+}
+
+function Card({ title, value, valueColor, footnote, delta, deltaLabel = "vs Last WTD" }: CardProps) {
   return (
     <div className="flex-1 rounded-lg border border-slate-200 bg-white px-4 py-3 shadow-sm min-w-[180px]">
       <div className="flex items-center gap-1 text-[11px] font-medium uppercase tracking-wide text-slate-500">
@@ -35,7 +51,12 @@ function Card({ title, value, valueColor, footnote, delta, deltaLabel = "vs Last
   );
 }
 
-export default function ComplaintKpiCards({ summary, loading }) {
+interface ComplaintKpiCardsProps {
+  summary?: ComplaintDashboardSummary | null;
+  loading: boolean;
+}
+
+export default function ComplaintKpiCards({ summary, loading }: ComplaintKpiCardsProps) {
   if (loading || !summary) {
     return (
       <div className="flex flex-wrap gap-4">

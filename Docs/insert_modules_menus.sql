@@ -50,6 +50,8 @@ VALUES
         (SELECT MODULE_ID FROM JAN_MODULES WHERE MODULE_CODE = 'PES'), (SELECT menu_id FROM (SELECT MENU_ID FROM JAN_MENUS WHERE MENU_CODE = 'PESDASH') AS t), 'REPORT', 'CHILD', 3, 'ACTIVE', 'SYSTEM', '/pes/dashboards/planning-overview', 'calendar-days'),
     ('PESEXS', 'Executive Summary', 'Executive Summary',
         (SELECT MODULE_ID FROM JAN_MODULES WHERE MODULE_CODE = 'PES'), (SELECT menu_id FROM (SELECT MENU_ID FROM JAN_MENUS WHERE MENU_CODE = 'PESDASH') AS t), 'REPORT', 'CHILD', 4, 'ACTIVE', 'SYSTEM', '/pes/dashboards/executive-summary', 'presentation'),
+    ('PESPC', 'Product Complaint', 'Product Complaint',
+        (SELECT MODULE_ID FROM JAN_MODULES WHERE MODULE_CODE = 'PES'), (SELECT menu_id FROM (SELECT MENU_ID FROM JAN_MENUS WHERE MENU_CODE = 'PESDASH') AS t), 'REPORT', 'CHILD', 5, 'ACTIVE', 'SYSTEM', '/pes/dashboards/product-complaint', 'alert-circle'),
     ('PESKPI', 'KPI''s', 'KPI''s',
         (SELECT MODULE_ID FROM JAN_MODULES WHERE MODULE_CODE = 'PES'), NULL, 'REPORT', 'PARENT', 2, 'ACTIVE', 'SYSTEM', '/pes/kpis', 'chart-no-axes-combined'),
     ('PESOCQ', 'OCQ completion', 'OCQ completion',

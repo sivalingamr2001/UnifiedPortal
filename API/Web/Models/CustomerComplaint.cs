@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace CustomerComplaintApi.Models
 {
     public class ComplaintKpiCard
@@ -14,11 +17,11 @@ namespace CustomerComplaintApi.Models
     public class ComplaintDashboardSummary
     {
         public DateTime AsOf { get; set; }
-        public ComplaintKpiCard TotalComplaints { get; set; }
-        public ComplaintKpiCard SolvedWithinSla { get; set; }
-        public ComplaintKpiCard OpenWithinSla { get; set; }
-        public ComplaintKpiCard OpenBreachedSla { get; set; }
-        public ComplaintKpiCard ComplaintRate { get; set; }
+        public ComplaintKpiCard TotalComplaints { get; set; } = null!;
+        public ComplaintKpiCard SolvedWithinSla { get; set; } = null!;
+        public ComplaintKpiCard OpenWithinSla { get; set; } = null!;
+        public ComplaintKpiCard OpenBreachedSla { get; set; } = null!;
+        public ComplaintKpiCard ComplaintRate { get; set; } = null!;
         public double SlaPerformancePct { get; set; }
         public double SlaTargetPct { get; set; } = 90.0;
         public double LastWtdSlaPerformancePct { get; set; }
@@ -27,7 +30,7 @@ namespace CustomerComplaintApi.Models
     public class ComplaintTrendPoint
     {
         public DateTime Day { get; set; }
-        public string DayLabel { get; set; }
+        public string DayLabel { get; set; } = null!;
         public int SolvedWithinSla { get; set; }
         public int OpenWithinSla { get; set; }
         public int OpenBreachedSla { get; set; }
@@ -36,10 +39,10 @@ namespace CustomerComplaintApi.Models
 
     public class ProductComplaintRow
     {
-        public string ProductCode { get; set; }
-        public string CustomerName { get; set; }
-        public string Region {  get; set; }
-        public string ProductDescription { get; set; }
+        public string ProductCode { get; set; } = null!;
+        public string CustomerName { get; set; } = null!;
+        public string Region {  get; set; } = null!;
+        public string ProductDescription { get; set; } = null!;
         public int OrdersDelivered { get; set; }
         public int TotalComplaints { get; set; }
         public int SolvedWithinSla { get; set; }
@@ -54,7 +57,7 @@ namespace CustomerComplaintApi.Models
     public class ProductComplaintTableResult
     {
         public List<ProductComplaintRow> Rows { get; set; } = new();
-        public ProductComplaintRow Total { get; set; }
+        public ProductComplaintRow Total { get; set; } = null!;
         public int Page { get; set; }
         public int PageSize { get; set; }
         public int TotalCount { get; set; }

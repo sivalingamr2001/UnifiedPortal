@@ -33,6 +33,7 @@ try
 
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("DefaultConnection connection string not found.");
     builder.Services.AddMySqlDynamicTransaction(connectionString);
+    builder.Services.AddScoped<CustomerComplaintApi.Data.DbHelper>();
 
     var app = builder.Build();
 

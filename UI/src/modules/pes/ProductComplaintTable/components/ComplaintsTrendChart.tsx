@@ -11,8 +11,14 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Info } from "lucide-react";
+import type { ComplaintTrendPoint } from "../services/complaintApi";
 
-export default function ComplaintsTrendChart({ data, loading }) {
+interface ComplaintsTrendChartProps {
+  data: ComplaintTrendPoint[];
+  loading: boolean;
+}
+
+export default function ComplaintsTrendChart({ data, loading }: ComplaintsTrendChartProps) {
   return (
     <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
       <div className="mb-2 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-600">

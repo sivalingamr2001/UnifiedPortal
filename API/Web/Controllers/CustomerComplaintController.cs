@@ -5,14 +5,12 @@ using CustomerComplaintApi.Models;
 
 namespace CustomerComplaintApi.Controllers
 {
-    // Backs the "Customer Complaints Overview (WTD)" dashboard.
-    // WTD = Week To Date: from this ISO week's Monday through today.
-    // "Last WTD" = the same number of elapsed days, one week earlier, so the
-    // two periods compare apples-to-apples (see README-BACKEND.md).
-    [Route("api/[controller]")]
-    public class CustomerComplaintController : BaseApiController
+    [ApiController]
+    [Route("api/customercomplaint")]
+    public class CustomerComplaintController : ControllerBase
     {
         private readonly DbHelper _db;
+        private bool IsAuthenticated => true;
 
         public CustomerComplaintController(DbHelper db)
         {
@@ -25,43 +23,41 @@ namespace CustomerComplaintApi.Controllers
         // ------------------------------------------------------------
         [HttpGet("summary")]
         public IActionResult GetSummary(
-    int orgId = 103,
-    string fromDate = null,
-    string toDate = null)
+            [FromQuery] int orgId = 103,
+            [FromQuery] string? fromDate = null,
+            [FromQuery] string? toDate = null)
         {
-            if (!IsAuthenticated) return Unauthorized(ApiResponse<object>.Fail("Session expired. Please log in again."));
+            if (!IsAuthenticated) return Unauthorized(new { Message = "Session expired. Please log in again." });
+            if (string.IsNullOrEmpty(fromDate) || string.IsNullOrEmpty(toDate))
+                return BadRequest("From and To dates are required.");
 
             DateTime from = DateTime.Parse(fromDate);
             DateTime to = DateTime.Parse(toDate);
 
             var ps = new[]
-{
-    new OracleParam("orgId", orgId),
-    new OracleParam("fromDate", from),
-    new OracleParam("toDate", to)
-};
-
-
+            {
+                new OracleParam("orgId", orgId),
+                new OracleParam("fromDate", from),
+                new OracleParam("toDate", to)
+            };
 
             var sql = @"WITH periods AS (
     SELECT
-        TRUNC(:fromDate) AS cur_start,
-        TRUNC(:toDate) AS cur_end,
-        TRUNC(:fromDate) - 7 AS prev_start,
-        TRUNC(:toDate) - 7 AS prev_end
-    FROM dual
+        DATE(@fromDate) AS cur_start,
+        DATE(@toDate) AS cur_end,
+        DATE_SUB(DATE(@fromDate), INTERVAL 7 DAY) AS prev_start,
+        DATE_SUB(DATE(@toDate), INTERVAL 7 DAY) AS prev_end
 ),
 base AS (
     SELECT c.CCRDT, c.CLOSE_DT, c.TARGET_COMP_DT, c.ITEM_NO, c.WEEK_SALE_QTY,
-           CASE WHEN TRUNC(c.CCRDT) >= p.cur_start  AND TRUNC(c.CCRDT) <= p.cur_end  THEN 'CUR'
-                WHEN TRUNC(c.CCRDT) >= p.prev_start AND TRUNC(c.CCRDT) <= p.prev_end THEN 'PREV'
+           CASE WHEN DATE(c.CCRDT) >= p.cur_start  AND DATE(c.CCRDT) <= p.cur_end  THEN 'CUR'
+                WHEN DATE(c.CCRDT) >= p.prev_start AND DATE(c.CCRDT) <= p.prev_end THEN 'PREV'
            END AS PERIOD
     FROM JAN_SERVICE_CCR_zoho c
     CROSS JOIN periods p
-    WHERE c.ORG_ID = 103
+    WHERE c.ORG_ID = @orgId
 ),
 item_orders AS (
-    -- Pre-calculate distinct item lists per period and join max quantities
     SELECT 
         b.PERIOD,
         SUM(io.QTY) AS TOTAL_DELIVERED
@@ -69,7 +65,7 @@ item_orders AS (
     JOIN (
         SELECT ITEM_NO, MAX(WEEK_SALE_QTY) AS QTY
         FROM JAN_SERVICE_CCR_zoho
-        WHERE ORG_ID = 103
+        WHERE ORG_ID = @orgId
         GROUP BY ITEM_NO
     ) io ON b.ITEM_NO = io.ITEM_NO
     GROUP BY b.PERIOD
@@ -77,10 +73,10 @@ item_orders AS (
 SELECT
     b.PERIOD,
     COUNT(*)                                                                                    AS TOTAL_COMPLAINTS,
-    SUM(CASE WHEN b.CLOSE_DT IS NOT NULL AND TRUNC(b.CLOSE_DT) <= b.TARGET_COMP_DT THEN 1 ELSE 0 END)    AS SOLVED_WITHIN_SLA,
-    SUM(CASE WHEN b.CLOSE_DT IS NULL AND (b.TARGET_COMP_DT IS NULL OR b.TARGET_COMP_DT >= TRUNC(SYSDATE)) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
-    SUM(CASE WHEN b.CLOSE_DT IS NULL AND b.TARGET_COMP_DT < TRUNC(SYSDATE) THEN 1 ELSE 0 END)     AS OPEN_BREACHED_SLA,
-    NVL(io.TOTAL_DELIVERED, 0)                                                                   AS ORDERS_DELIVERED
+    SUM(CASE WHEN b.CLOSE_DT IS NOT NULL AND DATE(b.CLOSE_DT) <= b.TARGET_COMP_DT THEN 1 ELSE 0 END)    AS SOLVED_WITHIN_SLA,
+    SUM(CASE WHEN b.CLOSE_DT IS NULL AND (b.TARGET_COMP_DT IS NULL OR b.TARGET_COMP_DT >= CURDATE()) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
+    SUM(CASE WHEN b.CLOSE_DT IS NULL AND b.TARGET_COMP_DT < CURDATE() THEN 1 ELSE 0 END)     AS OPEN_BREACHED_SLA,
+    COALESCE(io.TOTAL_DELIVERED, 0)                                                             AS ORDERS_DELIVERED
 FROM base b
 LEFT JOIN item_orders io ON b.PERIOD = io.PERIOD
 WHERE b.PERIOD IS NOT NULL
@@ -90,20 +86,20 @@ GROUP BY b.PERIOD, io.TOTAL_DELIVERED";
             var byPeriod = new Dictionary<string, DataRow>();
             foreach (DataRow r in dt.Rows) byPeriod[r["PERIOD"].ToString()!] = r;
 
-            DataRow cur = byPeriod.GetValueOrDefault("CUR");
-            DataRow prev = byPeriod.GetValueOrDefault("PREV");
+            DataRow? cur = byPeriod.GetValueOrDefault("CUR");
+            DataRow? prev = byPeriod.GetValueOrDefault("PREV");
 
-            int curTotal = DbHelper.Val<int>(cur, "TOTAL_COMPLAINTS");
-            int curSolved = DbHelper.Val<int>(cur, "SOLVED_WITHIN_SLA");
-            int curOpenOk = DbHelper.Val<int>(cur, "OPEN_WITHIN_SLA");
-            int curBreached = DbHelper.Val<int>(cur, "OPEN_BREACHED_SLA");
-            int curOrders = DbHelper.Val<int>(cur, "ORDERS_DELIVERED");
+            int curTotal = DbHelper.Val<int>(cur!, "TOTAL_COMPLAINTS");
+            int curSolved = DbHelper.Val<int>(cur!, "SOLVED_WITHIN_SLA");
+            int curOpenOk = DbHelper.Val<int>(cur!, "OPEN_WITHIN_SLA");
+            int curBreached = DbHelper.Val<int>(cur!, "OPEN_BREACHED_SLA");
+            int curOrders = DbHelper.Val<int>(cur!, "ORDERS_DELIVERED");
 
-            int prevTotal = DbHelper.Val<int>(prev, "TOTAL_COMPLAINTS");
-            int prevSolved = DbHelper.Val<int>(prev, "SOLVED_WITHIN_SLA");
-            int prevOpenOk = DbHelper.Val<int>(prev, "OPEN_WITHIN_SLA");
-            int prevBreached = DbHelper.Val<int>(prev, "OPEN_BREACHED_SLA");
-            int prevOrders = DbHelper.Val<int>(prev, "ORDERS_DELIVERED");
+            int prevTotal = DbHelper.Val<int>(prev!, "TOTAL_COMPLAINTS");
+            int prevSolved = DbHelper.Val<int>(prev!, "SOLVED_WITHIN_SLA");
+            int prevOpenOk = DbHelper.Val<int>(prev!, "OPEN_WITHIN_SLA");
+            int prevBreached = DbHelper.Val<int>(prev!, "OPEN_BREACHED_SLA");
+            int prevOrders = DbHelper.Val<int>(prev!, "ORDERS_DELIVERED");
 
             double curRate = curOrders > 0 ? Math.Round(curTotal * 100.0 / curOrders, 2) : 0;
             double prevRate = prevOrders > 0 ? Math.Round(prevTotal * 100.0 / prevOrders, 2) : 0;
@@ -137,7 +133,7 @@ GROUP BY b.PERIOD, io.TOTAL_DELIVERED";
                 LastWtdSlaPerformancePct = prevSlaPerf
             };
 
-            return Ok(ApiResponse<ComplaintDashboardSummary>.Ok(summary));
+            return Ok(summary);
         }
 
         // ------------------------------------------------------------
@@ -145,56 +141,55 @@ GROUP BY b.PERIOD, io.TOTAL_DELIVERED";
         // ------------------------------------------------------------
         [HttpGet("trend")]
         public IActionResult GetTrend(
-    int orgId = 103,
-    string fromDate = null,
-    string toDate = null)
+            [FromQuery] int orgId = 103,
+            [FromQuery] string? fromDate = null,
+            [FromQuery] string? toDate = null)
         {
-            if (!IsAuthenticated) return Unauthorized(ApiResponse<object>.Fail("Session expired. Please log in again."));
+            if (!IsAuthenticated) return Unauthorized(new { Message = "Session expired. Please log in again." });
+            if (string.IsNullOrEmpty(fromDate) || string.IsNullOrEmpty(toDate))
+                return BadRequest("From and To dates are required.");
 
             var ps = new[]
-{
-    new OracleParam("orgId", orgId),
-    new OracleParam("fromDate", DateTime.Parse(fromDate)),
-    new OracleParam("toDate", DateTime.Parse(toDate))
-};
+            {
+                new OracleParam("orgId", orgId),
+                new OracleParam("fromDate", DateTime.Parse(fromDate)),
+                new OracleParam("toDate", DateTime.Parse(toDate))
+            };
 
             var sql = @"
                 SELECT
-                    TRUNC(CCRDT)                                                                              AS DAY,
-                    SUM(CASE WHEN CLOSE_DT IS NOT NULL AND TRUNC(CLOSE_DT) <= TARGET_COMP_DT THEN 1 ELSE 0 END)        AS SOLVED_WITHIN_SLA,
-                    SUM(CASE WHEN CLOSE_DT IS NULL AND (TARGET_COMP_DT IS NULL OR TARGET_COMP_DT >= TRUNC(SYSDATE)) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
-                    SUM(CASE WHEN CLOSE_DT IS NULL AND TARGET_COMP_DT < TRUNC(SYSDATE) THEN 1 ELSE 0 END)       AS OPEN_BREACHED_SLA,
+                    DATE(CCRDT)                                                                               AS DAY,
+                    SUM(CASE WHEN CLOSE_DT IS NOT NULL AND DATE(CLOSE_DT) <= TARGET_COMP_DT THEN 1 ELSE 0 END)        AS SOLVED_WITHIN_SLA,
+                    SUM(CASE WHEN CLOSE_DT IS NULL AND (TARGET_COMP_DT IS NULL OR TARGET_COMP_DT >= CURDATE()) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
+                    SUM(CASE WHEN CLOSE_DT IS NULL AND TARGET_COMP_DT < CURDATE() THEN 1 ELSE 0 END)       AS OPEN_BREACHED_SLA,
                     COUNT(*)                                                                                    AS TOTAL_COMPLAINTS
                 FROM JAN_SERVICE_CCR_zoho
-                WHERE ORG_ID = :orgId
-                  AND CCRDT >=  TRUNC(:fromDate)
-                  AND CCRDT <= TRUNC(:toDate)
-                GROUP BY TRUNC(CCRDT)
-                ORDER BY TRUNC(CCRDT)";
+                WHERE ORG_ID = @orgId
+                  AND CCRDT >=  DATE(@fromDate)
+                  AND CCRDT <= DATE(@toDate)
+                GROUP BY DATE(CCRDT)
+                ORDER BY DATE(CCRDT)";
 
             DataTable dt = _db.ExecuteQuery(sql, ps);
 
             var ordersSql = @"
-    SELECT NVL(SUM(QTY),0) AS ORDERS_DELIVERED
-    FROM
-    (
-        SELECT DISTINCT ITEM_NO,
-               WEEK_SALE_QTY AS QTY
-        FROM JAN_SERVICE_CCR_zoho
-        WHERE ORG_ID = :orgId
-          AND TRUNC(CCRDT) >= TRUNC(:fromDate)
-          AND TRUNC(CCRDT) <= TRUNC(:toDate)
-    )";
+                SELECT COALESCE(SUM(QTY), 0) AS ORDERS_DELIVERED
+                FROM
+                (
+                    SELECT DISTINCT ITEM_NO,
+                           WEEK_SALE_QTY AS QTY
+                    FROM JAN_SERVICE_CCR_zoho
+                    WHERE ORG_ID = @orgId
+                      AND DATE(CCRDT) >= DATE(@fromDate)
+                      AND DATE(CCRDT) <= DATE(@toDate)
+                ) t";
             int weekOrders = DbHelper.Val<int>(_db.ExecuteQuery(ordersSql, ps).Rows[0], "ORDERS_DELIVERED");
 
-           
             var points = new List<ComplaintTrendPoint>();
             foreach (DataRow r in dt.Rows)
             {
                 var day = DbHelper.Val<DateTime>(r, "DAY");
                 int total = DbHelper.Val<int>(r, "TOTAL_COMPLAINTS");
-                //double curRate = weekOrders > 0 ? Math.Round(total * 100.0 / weekOrders, 2) : 0;
-                //double prevRate = prevOrders > 0 ? Math.Round(prevTotal * 100.0 / prevOrders, 2) : 0;
                 points.Add(new ComplaintTrendPoint
                 {
                     Day = day,
@@ -203,20 +198,26 @@ GROUP BY b.PERIOD, io.TOTAL_DELIVERED";
                     OpenWithinSla = DbHelper.Val<int>(r, "OPEN_WITHIN_SLA"),
                     OpenBreachedSla = DbHelper.Val<int>(r, "OPEN_BREACHED_SLA"),
                     ComplaintRatePct = weekOrders > 0 ? Math.Round(total * 100.0 / weekOrders, 2) : 0
-                    //ComplaintRatePct = Math.Round(curRate - prevRate, 2)
                 });
             }
 
-            return Ok(ApiResponse<List<ComplaintTrendPoint>>.Ok(points));
+            return Ok(points);
         }
 
         // ------------------------------------------------------------
         // GET api/customercomplaint/product-summary?orgId=103&page=1&pageSize=10
         // ------------------------------------------------------------
         [HttpGet("product-summary")]
-        public IActionResult GetProductSummary( int orgId = 103,int page = 1,int pageSize = 10, string fromDate = null,string toDate = null)
+        public IActionResult GetProductSummary(
+            [FromQuery] int orgId = 103,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string? fromDate = null,
+            [FromQuery] string? toDate = null)
         {
-            if (!IsAuthenticated) return Unauthorized(ApiResponse<object>.Fail("Session expired. Please log in again."));
+            if (!IsAuthenticated) return Unauthorized(new { Message = "Session expired. Please log in again." });
+            if (string.IsNullOrEmpty(fromDate) || string.IsNullOrEmpty(toDate))
+                return BadRequest("From and To dates are required.");
 
             page = page < 1 ? 1 : page;
             pageSize = pageSize < 1 ? 10 : pageSize;
@@ -225,7 +226,7 @@ GROUP BY b.PERIOD, io.TOTAL_DELIVERED";
                 WITH item_orders AS (
                     SELECT ITEM_NO, MAX(WEEK_SALE_QTY) AS ORDERS_DELIVERED
                     FROM JAN_SERVICE_CCR_zoho
-                    WHERE ORG_ID = :orgId AND TRUNC(CCRDT) >= TRUNC(:fromDate) AND TRUNC(CCRDT) <= TRUNC(:toDate)
+                    WHERE ORG_ID = @orgId AND DATE(CCRDT) >= DATE(@fromDate) AND DATE(CCRDT) <= DATE(@toDate)
                     GROUP BY ITEM_NO
                 ),
                 per_item AS (
@@ -236,47 +237,40 @@ GROUP BY b.PERIOD, io.TOTAL_DELIVERED";
                         MAX(c.CUSREGION)                                                                          AS CUSREGION,
                         COUNT(*)                                                                                  AS TOTAL_COMPLAINTS,
                         SUM(CASE WHEN c.CLOSE_DT IS NOT NULL AND c.CLOSE_DT <= c.TARGET_COMP_DT THEN 1 ELSE 0 END) AS SOLVED_WITHIN_SLA,
-                        SUM(CASE WHEN c.CLOSE_DT IS NULL AND (c.TARGET_COMP_DT IS NULL OR c.TARGET_COMP_DT >= TRUNC(SYSDATE)) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
-                        SUM(CASE WHEN c.CLOSE_DT IS NULL AND c.TARGET_COMP_DT < TRUNC(SYSDATE) THEN 1 ELSE 0 END)  AS OPEN_BREACHED_SLA
+                        SUM(CASE WHEN c.CLOSE_DT IS NULL AND (c.TARGET_COMP_DT IS NULL OR c.TARGET_COMP_DT >= CURDATE()) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
+                        SUM(CASE WHEN c.CLOSE_DT IS NULL AND c.TARGET_COMP_DT < CURDATE() THEN 1 ELSE 0 END)  AS OPEN_BREACHED_SLA
                     FROM JAN_SERVICE_CCR_zoho c
-                    WHERE c.ORG_ID = :orgId AND  TRUNC(CCRDT) >= TRUNC(:fromDate) AND TRUNC(CCRDT) <= TRUNC(:toDate)
+                    WHERE c.ORG_ID = @orgId AND DATE(c.CCRDT) >= DATE(@fromDate) AND DATE(c.CCRDT) <= DATE(@toDate)
                     GROUP BY c.ITEM_NO
                 )
-                SELECT p.ITEM_NO,p.COMP_CUS_NAME, p.CUSREGION, p.PRODUCT_DESCRIPTION, NVL(io.ORDERS_DELIVERED, 0) AS ORDERS_DELIVERED,
+                SELECT p.ITEM_NO, p.COMP_CUS_NAME, p.CUSREGION, p.PRODUCT_DESCRIPTION, COALESCE(io.ORDERS_DELIVERED, 0) AS ORDERS_DELIVERED,
                        p.TOTAL_COMPLAINTS, p.SOLVED_WITHIN_SLA, p.OPEN_WITHIN_SLA, p.OPEN_BREACHED_SLA
                 FROM per_item p
                 LEFT JOIN item_orders io ON io.ITEM_NO = p.ITEM_NO";
-            if (!DateTime.TryParse(fromDate, out var from))
-                return BadRequest("Invalid From Date");
-
-            if (!DateTime.TryParse(toDate, out var to))
-                return BadRequest("Invalid To Date");
 
             var ps = new[]
-{
-    new OracleParam("orgId", orgId),
-    new OracleParam("fromDate", DateTime.Parse(fromDate)),
-    new OracleParam("toDate", DateTime.Parse(toDate))
-};
+            {
+                new OracleParam("orgId", orgId),
+                new OracleParam("fromDate", DateTime.Parse(fromDate)),
+                new OracleParam("toDate", DateTime.Parse(toDate))
+            };
 
-            int totalCount = Convert.ToInt32(_db.ExecuteQuery($"SELECT COUNT(*) AS CNT FROM ({baseSql})", ps).Rows[0]["CNT"]);
+            int totalCount = Convert.ToInt32(_db.ExecuteQuery($"SELECT COUNT(*) AS CNT FROM ({baseSql}) t", ps).Rows[0]["CNT"]);
 
-            int startRow = (page - 1) * pageSize + 1;
+            int startRow = (page - 1) * pageSize;
             var pagedSql = $@"
-                SELECT * FROM (
-                    SELECT t.*, ROW_NUMBER() OVER (ORDER BY t.TOTAL_COMPLAINTS DESC) AS RN
-                    FROM ({baseSql}) t
-                )
-                WHERE RN BETWEEN :startRow AND :endRow";
+                SELECT t.* FROM ({baseSql}) t
+                ORDER BY t.TOTAL_COMPLAINTS DESC
+                LIMIT @pageSize OFFSET @offset";
 
             var pagedPs = new[]
- {
-    new OracleParam("orgId", orgId),
-    new OracleParam("fromDate", DateTime.Parse(fromDate)),
-    new OracleParam("toDate", DateTime.Parse(toDate)),
-    new OracleParam("startRow", startRow),
-    new OracleParam("endRow", startRow + pageSize - 1)
-};
+            {
+                new OracleParam("orgId", orgId),
+                new OracleParam("fromDate", DateTime.Parse(fromDate)),
+                new OracleParam("toDate", DateTime.Parse(toDate)),
+                new OracleParam("pageSize", pageSize),
+                new OracleParam("offset", startRow)
+            };
 
             DataTable dt = _db.ExecuteQuery(pagedSql, pagedPs);
 
@@ -307,26 +301,26 @@ GROUP BY b.PERIOD, io.TOTAL_DELIVERED";
             }
 
             var totalsSql = @"
-                SELECT NVL(SUM(io.ORDERS_DELIVERED),0) AS ORDERS_DELIVERED,
-                       NVL(SUM(p.TOTAL_COMPLAINTS),0)   AS TOTAL_COMPLAINTS,
-                       NVL(SUM(p.SOLVED_WITHIN_SLA),0)  AS SOLVED_WITHIN_SLA,
-                       NVL(SUM(p.OPEN_WITHIN_SLA),0)    AS OPEN_WITHIN_SLA,
-                       NVL(SUM(p.OPEN_BREACHED_SLA),0)  AS OPEN_BREACHED_SLA
+                SELECT COALESCE(SUM(io.ORDERS_DELIVERED), 0) AS ORDERS_DELIVERED,
+                       COALESCE(SUM(p.TOTAL_COMPLAINTS), 0)   AS TOTAL_COMPLAINTS,
+                       COALESCE(SUM(p.SOLVED_WITHIN_SLA), 0)  AS SOLVED_WITHIN_SLA,
+                       COALESCE(SUM(p.OPEN_WITHIN_SLA), 0)    AS OPEN_WITHIN_SLA,
+                       COALESCE(SUM(p.OPEN_BREACHED_SLA), 0)  AS OPEN_BREACHED_SLA
                 FROM (
                     SELECT c.ITEM_NO, COUNT(*) AS TOTAL_COMPLAINTS,
                            SUM(CASE WHEN c.CLOSE_DT IS NOT NULL AND c.CLOSE_DT <= c.TARGET_COMP_DT THEN 1 ELSE 0 END) AS SOLVED_WITHIN_SLA,
-                           SUM(CASE WHEN c.CLOSE_DT IS NULL AND (c.TARGET_COMP_DT IS NULL OR c.TARGET_COMP_DT >= TRUNC(SYSDATE)) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
-                           SUM(CASE WHEN c.CLOSE_DT IS NULL AND c.TARGET_COMP_DT < TRUNC(SYSDATE) THEN 1 ELSE 0 END) AS OPEN_BREACHED_SLA
+                           SUM(CASE WHEN c.CLOSE_DT IS NULL AND (c.TARGET_COMP_DT IS NULL OR c.TARGET_COMP_DT >= CURDATE()) THEN 1 ELSE 0 END) AS OPEN_WITHIN_SLA,
+                           SUM(CASE WHEN c.CLOSE_DT IS NULL AND c.TARGET_COMP_DT < CURDATE() THEN 1 ELSE 0 END) AS OPEN_BREACHED_SLA
                     FROM JAN_SERVICE_CCR_zoho c
-                    WHERE c.ORG_ID = :orgId AND TRUNC(c.CCRDT) >= TRUNC(:fromDate)
-                    AND TRUNC(c.CCRDT) <= TRUNC(:toDate)
+                    WHERE c.ORG_ID = @orgId AND DATE(c.CCRDT) >= DATE(@fromDate)
+                    AND DATE(c.CCRDT) <= DATE(@toDate)
                     GROUP BY c.ITEM_NO
                 ) p
                 LEFT JOIN (
                     SELECT ITEM_NO, MAX(WEEK_SALE_QTY) AS ORDERS_DELIVERED
                     FROM JAN_SERVICE_CCR_zoho
-                    WHERE ORG_ID = :orgId AND TRUNC(CCRDT) >= TRUNC(:fromDate)
-                    AND TRUNC(CCRDT) <= TRUNC(:toDate)
+                    WHERE ORG_ID = @orgId AND DATE(CCRDT) >= DATE(@fromDate)
+                    AND DATE(CCRDT) <= DATE(@toDate)
                     GROUP BY ITEM_NO
                 ) io ON io.ITEM_NO = p.ITEM_NO";
 
@@ -361,7 +355,7 @@ GROUP BY b.PERIOD, io.TOTAL_DELIVERED";
                 TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             };
 
-            return Ok(ApiResponse<ProductComplaintTableResult>.Ok(result));
+            return Ok(result);
         }
 
         // ------------------------------------------------------------
@@ -370,21 +364,21 @@ GROUP BY b.PERIOD, io.TOTAL_DELIVERED";
         // ------------------------------------------------------------
         [HttpGet("export")]
         public IActionResult Export(
-    int orgId = 103,
-    string fromDate = null,
-    string toDate = null)
+            [FromQuery] int orgId = 103,
+            [FromQuery] string? fromDate = null,
+            [FromQuery] string? toDate = null)
         {
-            if (!IsAuthenticated) return Unauthorized(ApiResponse<object>.Fail("Session expired. Please log in again."));
+            if (!IsAuthenticated) return Unauthorized(new { Message = "Session expired. Please log in again." });
 
             var okResult = GetProductSummary(
-     orgId,
-     1,
-     int.MaxValue,
-     fromDate,
-     toDate
- ) as OkObjectResult;
-            var response = okResult?.Value as ApiResponse<ProductComplaintTableResult>;
-            var rows = response?.Data?.Rows ?? new List<ProductComplaintRow>();
+                orgId,
+                1,
+                int.MaxValue,
+                fromDate,
+                toDate
+            ) as OkObjectResult;
+            var response = okResult?.Value as ProductComplaintTableResult;
+            var rows = response?.Rows ?? new List<ProductComplaintRow>();
 
             var sb = new System.Text.StringBuilder();
             sb.AppendLine("Product Code,Product Description,Orders Delivered (WTD),Total Complaints (WTD)," +

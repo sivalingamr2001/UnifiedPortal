@@ -1,23 +1,31 @@
 import React from "react";
 import { Info } from "lucide-react";
 
-// Semi-circle gauge, 0-100%. Red = far below target, amber = approaching,
-// green = at/above target. Colors can be retuned to match your exact
-// Figma palette if it differs — the zone breakpoints are set from
-// `targetPct` below.
-function polarToCartesian(cx, cy, r, angleDeg) {
+interface Point {
+  x: number;
+  y: number;
+}
+
+function polarToCartesian(cx: number, cy: number, r: number, angleDeg: number): Point {
   const rad = ((angleDeg - 180) * Math.PI) / 180;
   return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
 }
 
-function arcPath(cx, cy, r, startAngle, endAngle) {
+function arcPath(cx: number, cy: number, r: number, startAngle: number, endAngle: number): string {
   const start = polarToCartesian(cx, cy, r, endAngle);
   const end = polarToCartesian(cx, cy, r, startAngle);
   const largeArc = endAngle - startAngle <= 180 ? 0 : 1;
   return `M ${start.x} ${start.y} A ${r} ${r} 0 ${largeArc} 0 ${end.x} ${end.y}`;
 }
 
-export default function SlaGauge({ valuePct = 0, targetPct = 90, deltaPct = 0, loading }) {
+interface SlaGaugeProps {
+  valuePct?: number;
+  targetPct?: number;
+  deltaPct?: number;
+  loading: boolean;
+}
+
+export default function SlaGauge({ valuePct = 0, targetPct = 90, deltaPct = 0, loading }: SlaGaugeProps) {
   const cx = 110;
   const cy = 100;
   const r = 80;
@@ -66,7 +74,6 @@ export default function SlaGauge({ valuePct = 0, targetPct = 90, deltaPct = 0, l
               {deltaPct >= 0 ? "▲" : "▼"} {Math.abs(deltaPct)}%
             </span>
           </div>
-          {/* <div className="mt-0.5 text-[11px] text-slate-400">SLA Target ≥ {targetPct}%</div> */}
           <div className="mt-0.5 text-[11px] text-slate-400">SLA Target ≥ 100%</div>
         </div>
       )}

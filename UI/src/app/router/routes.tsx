@@ -24,6 +24,9 @@ import { PesProvider } from "@/modules/pes-lite/product-custodian/context/PesPro
 import { DashboardPage as ProductCustodianDashboard } from "@/modules/pes-lite/product-custodian/pages/DashboardPage"
 import { CommodityProvider } from "@/modules/pes-lite/commodity-custodian/context/CommodityProvider"
 import { DashboardPage as CommodityCustodianDashboard } from "@/modules/pes-lite/commodity-custodian/pages/DashboardPage"
+import AlertListPage from "@/modules/pes/Alerts/Activealertpage"
+import FgAlertWorkbench from "@/modules/pes/Alerts/FgAlertsPage"
+import CustomerComplaintOverview from "@/modules/pes/ProductComplaintTable/pages/CustomerComplaintOverview"
 
 const ProductCustodianWrapped = () => (
   <PesProvider>
@@ -105,6 +108,12 @@ export function AppRoutes() {
         {/* PES Module Dynamic Routes */}
         <Route path="pes/planning-execution-control" element={<PlanningExecutionControlTower />} />
         <Route path="pes/dashboards/planning-execution-control" element={<PlanningExecutionControlTower />} />
+        <Route path="pes/dashboards/product-complaint" element={<CustomerComplaintOverview />} />
+
+        {/* PES Alerts Routes */}
+        <Route path="pes/alerts" element={<Navigate to="active-alerts" replace />} />
+        <Route path="pes/alerts/active-alerts" element={<AlertListPage />} />
+        <Route path="pes/alerts/page1/:alertTrxId" element={<FgAlertWorkbench />} />
 
         {/* PESLite Module Dynamic Routes */}
         <Route path="peslite/product-custodian" element={<ProductCustodianWrapped />} />
