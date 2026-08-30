@@ -17,6 +17,7 @@
 		<PackageReference Include="Dapper" Version="2.1.79" />
 		<PackageReference Include="Dapper.Oracle" Version="2.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.0" />
 		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.26.300" />
 		<PackageReference Include="Polly" Version="8.7.0" />
 		<PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
@@ -31,9 +32,6 @@
 	<ItemGroup>
 		<Reference Include="ConnectionDll">
 			<HintPath>..\..\..\Repo\PESLITE\PROJECTS\ACCESSREQUEST\ACCESSREQUEST\ACCESSREQUEST.WEB\Infrastructure\Data\ExternalSources\ConnectionDll.dll</HintPath>
-		</Reference>
-		<Reference Include="OraConnection">
-			<HintPath>..\..\..\..\dll\OraConnection\OraConnection\bin\Debug\net8.0\OraConnection.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 
