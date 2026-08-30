@@ -36,6 +36,7 @@ public sealed class QueryController(
         logger.LogInformation("QueryController.Execute START QueryNumber: {QueryNumber}, Parameters: {Parameters}, Endpoint: {Endpoint}", 
             request.QueryNumber, redactedParams, "/api/query/execute");
 
+        var sw = System.Diagnostics.Stopwatch.StartNew();
         try
         {
             await using var connectionWrapper = connectionFactory.CreateConnection();
@@ -106,6 +107,7 @@ public sealed class QueryController(
         logger.LogInformation("QueryController.ExecuteCommand START QueryNumber: {QueryNumber}, Parameters: {Parameters}, Endpoint: {Endpoint}", 
             request.QueryNumber, redactedParams, "/api/query/execute-command");
 
+        var sw = System.Diagnostics.Stopwatch.StartNew();
         try
         {
             await using var connectionWrapper = connectionFactory.CreateConnection();
@@ -159,26 +161,9 @@ public sealed class QueryController(
         }
     }
 
-    private static JObject NormalizeInputParameters(Dictionary<string, object?>? inputParameters)
+    private static JObject NormalizeInputParameters(JObject? inputParameters)
     {
-        if (inputParameters == null || inputParameters.Count == 0)
-        {
-            return new JObject();
-        }
-
-        var result = new JObject();
-        foreach (var kvp in inputParameters)
-        {
-            if (kvp.Value == null)
-            {
-                result[kvp.Key] = JValue.CreateNull();
-                continue;
-            }
-
-            result[kvp.Key] = JToken.FromObject(kvp.Value);
-        }
-
-        return result;
+        return inputParameters ?? new JObject();
     }
 
     private static string? GetString(JObject value, string propertyName)
