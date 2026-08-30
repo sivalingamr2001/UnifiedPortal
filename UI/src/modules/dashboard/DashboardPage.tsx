@@ -81,7 +81,9 @@ function DashboardPage() {
       });
       let menus = normalizeMenus(menusRes);
 
-      if (user && user.roleId) {
+      const isSuperAdmin = user?.role?.trim().toLowerCase() === "superadmin";
+
+      if (user && user.roleId && !isSuperAdmin) {
         const assignedMenuIds = new Set<number>(
           currentMappings.map((m: any) => m.MENU_ID ?? m.menuId)
         );

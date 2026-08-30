@@ -25,7 +25,8 @@ function buildSidebarNavigation(
   const byParent = new Map<number | null, MenuModel[]>()
 
   menus.forEach((menu) => {
-    const parentKey = menu.parentMenuId ?? null
+    const rawParent = menu.parentMenuId
+    const parentKey = (!rawParent || rawParent === 0 || String(rawParent) === "" || String(rawParent) === "0") ? null : Number(rawParent)
     const existing = byParent.get(parentKey) ?? []
     existing.push(menu)
     byParent.set(parentKey, existing)
