@@ -1,0 +1,448 @@
+2026-08-31 00:02:03.557 +05:30 [INF] User profile is available. Using 'C:\Users\1409\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-08-31 00:02:04.871 +05:30 [INF] Now listening on: https://localhost:7222
+2026-08-31 00:02:04.873 +05:30 [INF] Now listening on: http://localhost:5202
+2026-08-31 00:02:05.023 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-08-31 00:02:05.028 +05:30 [INF] Hosting environment: Development
+2026-08-31 00:02:05.030 +05:30 [INF] Content root path: D:\UnifiedPortal\Docs\Janatics.Api\Web
+2026-08-31 00:02:06.753 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/index.html - null null
+2026-08-31 00:02:07.335 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/index.html - 200 null text/html;charset=utf-8 611.2431ms
+2026-08-31 00:02:08.320 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/_framework/aspnetcore-browser-refresh.js - null null
+2026-08-31 00:02:08.322 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/_vs/browserLink - null null
+2026-08-31 00:02:08.348 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/_framework/aspnetcore-browser-refresh.js - 200 14951 application/javascript; charset=utf-8 28.6211ms
+2026-08-31 00:02:08.457 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/_vs/browserLink - 200 null text/javascript; charset=UTF-8 135.158ms
+2026-08-31 00:02:08.542 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/v1/swagger.json - null null
+2026-08-31 00:02:08.618 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 76.5743ms
+2026-08-31 00:02:30.354 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/auth/login - application/json 54
+2026-08-31 00:02:30.387 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:02:30.535 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.AuthController.Login (JanaticsAdminPortal.API)'
+2026-08-31 00:02:30.595 +05:30 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(JanaticsAdminPortal.API.Models.UserLoginRequest) on controller JanaticsAdminPortal.API.Controllers.AuthController (JanaticsAdminPortal.API).
+2026-08-31 00:02:30.840 +05:30 [INF] [OracleConnectionFactory] Initialised successfully.
+2026-08-31 00:02:38.035 +05:30 [INF] Login denied by session policy for user 1: Maximum concurrent sessions reached for this account.
+2026-08-31 00:02:38.060 +05:30 [INF] Executing ConflictObjectResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-08-31 00:02:38.076 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.AuthController.Login (JanaticsAdminPortal.API) in 7472.4022ms
+2026-08-31 00:02:38.079 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.AuthController.Login (JanaticsAdminPortal.API)'
+2026-08-31 00:02:38.084 +05:30 [INF] HTTP POST /api/auth/login responded 409 in 7710.3611 ms
+2026-08-31 00:02:38.087 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/auth/login - 409 null application/json; charset=utf-8 7732.6887ms
+2026-08-31 00:04:17.662 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7222/api/auth/login - null null
+2026-08-31 00:04:17.673 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:04:17.678 +05:30 [INF] HTTP OPTIONS /api/auth/login responded 204 in 6.8212 ms
+2026-08-31 00:04:17.682 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7222/api/auth/login - 204 null null 20.24ms
+2026-08-31 00:04:17.711 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/auth/login - application/json 48
+2026-08-31 00:04:17.715 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:04:17.716 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.AuthController.Login (JanaticsAdminPortal.API)'
+2026-08-31 00:04:17.731 +05:30 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(JanaticsAdminPortal.API.Models.UserLoginRequest) on controller JanaticsAdminPortal.API.Controllers.AuthController (JanaticsAdminPortal.API).
+2026-08-31 00:04:18.455 +05:30 [INF] Executing OkObjectResult, writing value of type 'JanaticsAdminPortal.API.Models.LoginResponse'.
+2026-08-31 00:04:18.464 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.AuthController.Login (JanaticsAdminPortal.API) in 729.5266ms
+2026-08-31 00:04:18.466 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.AuthController.Login (JanaticsAdminPortal.API)'
+2026-08-31 00:04:18.468 +05:30 [INF] HTTP POST /api/auth/login responded 200 in 753.8073 ms
+2026-08-31 00:04:18.471 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/auth/login - 200 null application/json; charset=utf-8 760.6636ms
+2026-08-31 00:04:18.571 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7222/api/query/execute - null null
+2026-08-31 00:04:18.581 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7222/api/query/execute - null null
+2026-08-31 00:04:18.627 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7222/api/query/execute - null null
+2026-08-31 00:04:18.656 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:04:18.576 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7222/api/query/execute - null null
+2026-08-31 00:04:18.639 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:04:18.704 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:04:18.707 +05:30 [INF] HTTP OPTIONS /api/query/execute responded 204 in 50.9838 ms
+2026-08-31 00:04:18.711 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:04:18.712 +05:30 [INF] HTTP OPTIONS /api/query/execute responded 204 in 73.0757 ms
+2026-08-31 00:04:18.716 +05:30 [INF] HTTP OPTIONS /api/query/execute responded 204 in 11.2954 ms
+2026-08-31 00:04:18.720 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7222/api/query/execute - 204 null null 139.4968ms
+2026-08-31 00:04:18.724 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/query/execute - application/json 40
+2026-08-31 00:04:18.725 +05:30 [INF] HTTP OPTIONS /api/query/execute responded 204 in 13.9388 ms
+2026-08-31 00:04:18.728 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7222/api/query/execute - 204 null null 157.144ms
+2026-08-31 00:04:18.746 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/query/execute - application/json 40
+2026-08-31 00:04:18.747 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7222/api/query/execute - 204 null null 162.9651ms
+2026-08-31 00:04:18.750 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/query/execute - application/json 50
+2026-08-31 00:04:18.758 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:04:18.761 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7222/api/query/execute - 204 null null 184.7ms
+2026-08-31 00:04:18.763 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/query/execute - application/json 50
+2026-08-31 00:04:18.776 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:04:18.785 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:04:18.803 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:04:18.980 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:04:18.991 +05:30 [INF] Route matched with {action = "Execute", controller = "Query"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Execute(DynamicTransaction.Models.FetchConfig, System.Threading.CancellationToken) on controller JanaticsAdminPortal.API.Controllers.QueryController (JanaticsAdminPortal.API).
+2026-08-31 00:04:19.192 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:04:19.438 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API) in 444.7958ms
+2026-08-31 00:04:19.440 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:04:19.448 +05:30 [INF] Route matched with {action = "Execute", controller = "Query"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Execute(DynamicTransaction.Models.FetchConfig, System.Threading.CancellationToken) on controller JanaticsAdminPortal.API.Controllers.QueryController (JanaticsAdminPortal.API).
+2026-08-31 00:04:19.723 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:04:19.723 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:04:19.724 +05:30 [INF] Route matched with {action = "Execute", controller = "Query"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Execute(DynamicTransaction.Models.FetchConfig, System.Threading.CancellationToken) on controller JanaticsAdminPortal.API.Controllers.QueryController (JanaticsAdminPortal.API).
+2026-08-31 00:04:20.047 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API) in 320.7048ms
+2026-08-31 00:04:20.447 +05:30 [ERR] HTTP POST /api/query/execute responded 500 in 1644.8051 ms
+System.InvalidOperationException: Unable to resolve service for type 'DynamicTransaction.Interfaces.IDbConnectionFactory' while attempting to activate 'JanaticsAdminPortal.API.Controllers.QueryController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method20(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Program.<>c.<<<Main>$>b__0_4>d.MoveNext() in D:\UnifiedPortal\Docs\Janatics.Api\Web\Program.cs:line 130
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-08-31 00:04:20.732 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API) in 284.0141ms
+2026-08-31 00:04:20.957 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:04:21.627 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:04:22.052 +05:30 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'DynamicTransaction.Interfaces.IDbConnectionFactory' while attempting to activate 'JanaticsAdminPortal.API.Controllers.QueryController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method20(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Program.<>c.<<<Main>$>b__0_4>d.MoveNext() in D:\UnifiedPortal\Docs\Janatics.Api\Web\Program.cs:line 130
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2026-08-31 00:04:22.339 +05:30 [ERR] HTTP POST /api/query/execute responded 500 in 3497.7947 ms
+System.InvalidOperationException: Unable to resolve service for type 'DynamicTransaction.Interfaces.IDbConnectionFactory' while attempting to activate 'JanaticsAdminPortal.API.Controllers.QueryController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method20(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Program.<>c.<<<Main>$>b__0_4>d.MoveNext() in D:\UnifiedPortal\Docs\Janatics.Api\Web\Program.cs:line 130
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-08-31 00:04:20.048 +05:30 [INF] Route matched with {action = "Execute", controller = "Query"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Execute(DynamicTransaction.Models.FetchConfig, System.Threading.CancellationToken) on controller JanaticsAdminPortal.API.Controllers.QueryController (JanaticsAdminPortal.API).
+2026-08-31 00:04:22.642 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/query/execute - 500 null text/plain; charset=utf-8 3879.0204ms
+2026-08-31 00:04:22.629 +05:30 [ERR] HTTP POST /api/query/execute responded 500 in 3871.2964 ms
+System.InvalidOperationException: Unable to resolve service for type 'DynamicTransaction.Interfaces.IDbConnectionFactory' while attempting to activate 'JanaticsAdminPortal.API.Controllers.QueryController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method20(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Program.<>c.<<<Main>$>b__0_4>d.MoveNext() in D:\UnifiedPortal\Docs\Janatics.Api\Web\Program.cs:line 130
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-08-31 00:04:23.312 +05:30 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'DynamicTransaction.Interfaces.IDbConnectionFactory' while attempting to activate 'JanaticsAdminPortal.API.Controllers.QueryController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method20(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Program.<>c.<<<Main>$>b__0_4>d.MoveNext() in D:\UnifiedPortal\Docs\Janatics.Api\Web\Program.cs:line 130
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2026-08-31 00:04:23.662 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API) in 571.6244ms
+2026-08-31 00:04:24.201 +05:30 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'DynamicTransaction.Interfaces.IDbConnectionFactory' while attempting to activate 'JanaticsAdminPortal.API.Controllers.QueryController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method20(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Program.<>c.<<<Main>$>b__0_4>d.MoveNext() in D:\UnifiedPortal\Docs\Janatics.Api\Web\Program.cs:line 130
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2026-08-31 00:04:24.300 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/query/execute - 500 null text/plain; charset=utf-8 5458.956ms
+2026-08-31 00:04:24.417 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:04:24.424 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/query/execute - 500 null text/plain; charset=utf-8 5699.6626ms
+2026-08-31 00:04:24.763 +05:30 [ERR] HTTP POST /api/query/execute responded 500 in 5986.2643 ms
+System.InvalidOperationException: Unable to resolve service for type 'DynamicTransaction.Interfaces.IDbConnectionFactory' while attempting to activate 'JanaticsAdminPortal.API.Controllers.QueryController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method20(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Program.<>c.<<<Main>$>b__0_4>d.MoveNext() in D:\UnifiedPortal\Docs\Janatics.Api\Web\Program.cs:line 130
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-08-31 00:04:25.251 +05:30 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'DynamicTransaction.Interfaces.IDbConnectionFactory' while attempting to activate 'JanaticsAdminPortal.API.Controllers.QueryController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method20(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Program.<>c.<<<Main>$>b__0_4>d.MoveNext() in D:\UnifiedPortal\Docs\Janatics.Api\Web\Program.cs:line 130
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2026-08-31 00:04:25.261 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/query/execute - 500 null text/plain; charset=utf-8 6515.3078ms
+2026-08-31 00:06:22.384 +05:30 [INF] User profile is available. Using 'C:\Users\1409\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-08-31 00:06:23.018 +05:30 [INF] Now listening on: https://localhost:7222
+2026-08-31 00:06:23.020 +05:30 [INF] Now listening on: http://localhost:5202
+2026-08-31 00:06:23.140 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-08-31 00:06:23.244 +05:30 [INF] Hosting environment: Development
+2026-08-31 00:06:23.245 +05:30 [INF] Content root path: D:\UnifiedPortal\Docs\Janatics.Api\Web
+2026-08-31 00:06:24.207 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/index.html - null null
+2026-08-31 00:06:24.596 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/index.html - 200 null text/html;charset=utf-8 413.5503ms
+2026-08-31 00:06:24.618 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/_framework/aspnetcore-browser-refresh.js - null null
+2026-08-31 00:06:24.620 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/_vs/browserLink - null null
+2026-08-31 00:06:24.642 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/_framework/aspnetcore-browser-refresh.js - 200 14951 application/javascript; charset=utf-8 24.283ms
+2026-08-31 00:06:24.704 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/_vs/browserLink - 200 null text/javascript; charset=UTF-8 83.9211ms
+2026-08-31 00:06:24.788 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/v1/swagger.json - null null
+2026-08-31 00:06:24.840 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 52.1533ms
+2026-08-31 00:07:05.136 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7222/api/query/execute - null null
+2026-08-31 00:07:05.136 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7222/api/query/execute - null null
+2026-08-31 00:07:05.136 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7222/api/query/execute - null null
+2026-08-31 00:07:05.168 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7222/api/query/execute - null null
+2026-08-31 00:07:05.289 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:07:05.289 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:07:05.289 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:07:05.291 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:07:05.299 +05:30 [INF] HTTP OPTIONS /api/query/execute responded 204 in 28.6493 ms
+2026-08-31 00:07:05.300 +05:30 [INF] HTTP OPTIONS /api/query/execute responded 204 in 28.6540 ms
+2026-08-31 00:07:05.300 +05:30 [INF] HTTP OPTIONS /api/query/execute responded 204 in 23.0562 ms
+2026-08-31 00:07:05.300 +05:30 [INF] HTTP OPTIONS /api/query/execute responded 204 in 3.9891 ms
+2026-08-31 00:07:05.306 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7222/api/query/execute - 204 null null 201.7172ms
+2026-08-31 00:07:05.308 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7222/api/query/execute - 204 null null 203.9131ms
+2026-08-31 00:07:05.315 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/query/execute - application/json 40
+2026-08-31 00:07:05.316 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/query/execute - application/json 40
+2026-08-31 00:07:05.320 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7222/api/query/execute - 204 null null 215.8393ms
+2026-08-31 00:07:05.323 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/query/execute - application/json 50
+2026-08-31 00:07:05.323 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7222/api/query/execute - 204 null null 183.4089ms
+2026-08-31 00:07:05.326 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/query/execute - application/json 50
+2026-08-31 00:07:05.346 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:07:05.346 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:07:05.357 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:07:05.371 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:07:05.655 +05:30 [INF] [OracleConnectionFactory] Initialised successfully.
+2026-08-31 00:07:07.257 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:07:07.257 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:07:07.257 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:07:07.257 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:07:07.309 +05:30 [INF] Route matched with {action = "Execute", controller = "Query"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Execute(DynamicTransaction.Models.FetchConfig, System.Threading.CancellationToken) on controller JanaticsAdminPortal.API.Controllers.QueryController (JanaticsAdminPortal.API).
+2026-08-31 00:07:07.309 +05:30 [INF] Route matched with {action = "Execute", controller = "Query"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Execute(DynamicTransaction.Models.FetchConfig, System.Threading.CancellationToken) on controller JanaticsAdminPortal.API.Controllers.QueryController (JanaticsAdminPortal.API).
+2026-08-31 00:07:07.309 +05:30 [INF] Route matched with {action = "Execute", controller = "Query"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Execute(DynamicTransaction.Models.FetchConfig, System.Threading.CancellationToken) on controller JanaticsAdminPortal.API.Controllers.QueryController (JanaticsAdminPortal.API).
+2026-08-31 00:07:07.309 +05:30 [INF] Route matched with {action = "Execute", controller = "Query"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Execute(DynamicTransaction.Models.FetchConfig, System.Threading.CancellationToken) on controller JanaticsAdminPortal.API.Controllers.QueryController (JanaticsAdminPortal.API).
+2026-08-31 00:07:08.289 +05:30 [INF] QueryController.Execute START QueryNumber: 101, Parameters: [], Endpoint: /api/query/execute
+2026-08-31 00:07:08.289 +05:30 [INF] QueryController.Execute START QueryNumber: 101, Parameters: [], Endpoint: /api/query/execute
+2026-08-31 00:07:08.293 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-08-31 00:07:08.293 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-08-31 00:07:08.380 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync START. Parameters: [[[]]]
+2026-08-31 00:07:08.380 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync START. Parameters: [[[]]]
+2026-08-31 00:07:08.388 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API) in 1066.2435ms
+2026-08-31 00:07:08.388 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API) in 1062.3153ms
+2026-08-31 00:07:08.392 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:07:08.393 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:07:08.396 +05:30 [INF] HTTP POST /api/query/execute responded 400 in 3039.0098 ms
+2026-08-31 00:07:08.397 +05:30 [INF] HTTP POST /api/query/execute responded 400 in 3025.9115 ms
+2026-08-31 00:07:08.402 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/query/execute - 400 null application/problem+json; charset=utf-8 3079.2761ms
+2026-08-31 00:07:08.404 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/query/execute - 400 null application/problem+json; charset=utf-8 3078.2807ms
+2026-08-31 00:07:08.945 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync SUCCESS. OperationType: SELECT, RowsReturned: 0, DurationMs: 571, Success: true
+2026-08-31 00:07:08.945 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync SUCCESS. OperationType: SELECT, RowsReturned: 0, DurationMs: 571, Success: true
+2026-08-31 00:07:08.947 +05:30 [WRN] QueryController.Execute FAILED - QueryNumber 101 not found. 661ms
+2026-08-31 00:07:08.949 +05:30 [WRN] QueryController.Execute FAILED - QueryNumber 101 not found. 663ms
+2026-08-31 00:07:08.959 +05:30 [INF] Executing NotFoundObjectResult, writing value of type 'System.String'.
+2026-08-31 00:07:08.959 +05:30 [INF] Executing NotFoundObjectResult, writing value of type 'System.String'.
+2026-08-31 00:07:08.963 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API) in 1640.2144ms
+2026-08-31 00:07:08.965 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API) in 1645.8348ms
+2026-08-31 00:07:08.973 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:07:08.974 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:07:08.978 +05:30 [INF] HTTP POST /api/query/execute responded 404 in 3631.7367 ms
+2026-08-31 00:07:08.978 +05:30 [INF] HTTP POST /api/query/execute responded 404 in 3632.4573 ms
+2026-08-31 00:07:08.986 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/query/execute - 404 null text/plain; charset=utf-8 3670.1524ms
+2026-08-31 00:07:09.001 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/query/execute - 404 null text/plain; charset=utf-8 3686.2978ms
+2026-08-31 00:10:55.013 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7222/api/query/execute - null null
+2026-08-31 00:10:55.013 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7222/api/query/execute - null null
+2026-08-31 00:10:55.074 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7222/api/query/execute - null null
+2026-08-31 00:10:55.074 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7222/api/query/execute - null null
+2026-08-31 00:10:55.080 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:10:55.108 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:10:55.116 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:10:55.124 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:10:55.134 +05:30 [INF] HTTP OPTIONS /api/query/execute responded 204 in 10.5515 ms
+2026-08-31 00:10:55.130 +05:30 [INF] HTTP OPTIONS /api/query/execute responded 204 in 21.3444 ms
+2026-08-31 00:10:55.128 +05:30 [INF] HTTP OPTIONS /api/query/execute responded 204 in 48.0795 ms
+2026-08-31 00:10:55.179 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7222/api/query/execute - 204 null null 165.8521ms
+2026-08-31 00:10:55.257 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7222/api/query/execute - 204 null null 244.6402ms
+2026-08-31 00:10:55.140 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7222/api/query/execute - 204 null null 65.5338ms
+2026-08-31 00:10:55.131 +05:30 [INF] HTTP OPTIONS /api/query/execute responded 204 in 14.9062 ms
+2026-08-31 00:10:55.178 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/query/execute - application/json 50
+2026-08-31 00:10:55.254 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/query/execute - application/json 50
+2026-08-31 00:10:55.356 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/query/execute - application/json 40
+2026-08-31 00:10:55.373 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7222/api/query/execute - 204 null null 309.7518ms
+2026-08-31 00:10:55.381 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/query/execute - application/json 40
+2026-08-31 00:10:55.385 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:10:55.391 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:10:55.401 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:10:55.413 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:10:55.571 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:10:55.571 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:10:55.571 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:10:55.572 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:10:55.574 +05:30 [INF] Route matched with {action = "Execute", controller = "Query"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Execute(DynamicTransaction.Models.FetchConfig, System.Threading.CancellationToken) on controller JanaticsAdminPortal.API.Controllers.QueryController (JanaticsAdminPortal.API).
+2026-08-31 00:10:55.575 +05:30 [INF] Route matched with {action = "Execute", controller = "Query"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Execute(DynamicTransaction.Models.FetchConfig, System.Threading.CancellationToken) on controller JanaticsAdminPortal.API.Controllers.QueryController (JanaticsAdminPortal.API).
+2026-08-31 00:10:55.576 +05:30 [INF] Route matched with {action = "Execute", controller = "Query"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Execute(DynamicTransaction.Models.FetchConfig, System.Threading.CancellationToken) on controller JanaticsAdminPortal.API.Controllers.QueryController (JanaticsAdminPortal.API).
+2026-08-31 00:10:55.578 +05:30 [INF] Route matched with {action = "Execute", controller = "Query"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Execute(DynamicTransaction.Models.FetchConfig, System.Threading.CancellationToken) on controller JanaticsAdminPortal.API.Controllers.QueryController (JanaticsAdminPortal.API).
+2026-08-31 00:10:55.899 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-08-31 00:10:55.899 +05:30 [INF] QueryController.Execute START QueryNumber: 101, Parameters: [], Endpoint: /api/query/execute
+2026-08-31 00:10:56.398 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-08-31 00:10:56.398 +05:30 [INF] QueryController.Execute START QueryNumber: 101, Parameters: [], Endpoint: /api/query/execute
+2026-08-31 00:10:56.400 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API) in 820.5946ms
+2026-08-31 00:10:56.402 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync START. Parameters: [[[]]]
+2026-08-31 00:10:56.404 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API) in 503.5941ms
+2026-08-31 00:10:56.409 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:10:56.418 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:10:56.407 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync START. Parameters: [[[]]]
+2026-08-31 00:10:56.432 +05:30 [INF] HTTP POST /api/query/execute responded 400 in 1041.0787 ms
+2026-08-31 00:10:56.437 +05:30 [INF] HTTP POST /api/query/execute responded 400 in 1052.0509 ms
+2026-08-31 00:10:56.464 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/query/execute - 400 null application/problem+json; charset=utf-8 1217.7077ms
+2026-08-31 00:10:56.473 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/query/execute - 400 null application/problem+json; charset=utf-8 1295.4915ms
+2026-08-31 00:10:56.854 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync SUCCESS. OperationType: SELECT, RowsReturned: 1, DurationMs: 451, Success: true
+2026-08-31 00:10:56.854 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync SUCCESS. OperationType: SELECT, RowsReturned: 1, DurationMs: 446, Success: true
+2026-08-31 00:10:56.858 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync START. Parameters: []
+2026-08-31 00:10:56.858 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync START. Parameters: []
+2026-08-31 00:10:56.966 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync SUCCESS. OperationType: SELECT, RowsReturned: 8, DurationMs: 108, Success: true
+2026-08-31 00:10:56.966 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync SUCCESS. OperationType: SELECT, RowsReturned: 8, DurationMs: 108, Success: true
+2026-08-31 00:10:56.969 +05:30 [INF] QueryController.Execute SUCCESS QueryNumber: 101, Description: List Modules, OperationType: SELECT, RowsReturned: 8, DurationMs: 570, Success: true
+2026-08-31 00:10:56.971 +05:30 [INF] QueryController.Execute SUCCESS QueryNumber: 101, Description: List Modules, OperationType: SELECT, RowsReturned: 8, DurationMs: 1071, Success: true
+2026-08-31 00:10:56.975 +05:30 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`3[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Newtonsoft.Json.Linq.JArray, Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed]]'.
+2026-08-31 00:10:56.976 +05:30 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`3[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Newtonsoft.Json.Linq.JArray, Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed]]'.
+2026-08-31 00:10:56.985 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API) in 586.9588ms
+2026-08-31 00:10:56.985 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API) in 1154.0999ms
+2026-08-31 00:10:56.989 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:10:56.992 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:10:56.995 +05:30 [INF] HTTP POST /api/query/execute responded 200 in 1594.5765 ms
+2026-08-31 00:10:56.998 +05:30 [INF] HTTP POST /api/query/execute responded 200 in 1584.5343 ms
+2026-08-31 00:10:57.006 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/query/execute - 200 null application/json; charset=utf-8 1650.2627ms
+2026-08-31 00:10:57.014 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/query/execute - 200 null application/json; charset=utf-8 1632.3743ms
+2026-08-31 00:27:16.288 +05:30 [INF] User profile is available. Using 'C:\Users\1409\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-08-31 00:27:17.510 +05:30 [INF] Now listening on: https://localhost:7222
+2026-08-31 00:27:17.513 +05:30 [INF] Now listening on: http://localhost:5202
+2026-08-31 00:27:17.649 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-08-31 00:27:17.653 +05:30 [INF] Hosting environment: Development
+2026-08-31 00:27:17.655 +05:30 [INF] Content root path: D:\UnifiedPortalV2\Janatics.Api\Web
+2026-08-31 00:27:20.910 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/index.html - null null
+2026-08-31 00:27:21.337 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/index.html - 200 null text/html;charset=utf-8 449.4241ms
+2026-08-31 00:27:21.475 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/_framework/aspnetcore-browser-refresh.js - null null
+2026-08-31 00:27:21.476 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/_vs/browserLink - null null
+2026-08-31 00:27:21.506 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/_framework/aspnetcore-browser-refresh.js - 200 14951 application/javascript; charset=utf-8 31.4204ms
+2026-08-31 00:27:21.771 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/_vs/browserLink - 200 null text/javascript; charset=UTF-8 294.7022ms
+2026-08-31 00:27:21.855 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/v1/swagger.json - null null
+2026-08-31 00:27:21.907 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 51.7346ms
+2026-08-31 00:27:27.172 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7222/api/query/execute - null null
+2026-08-31 00:27:27.172 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7222/api/query/execute - null null
+2026-08-31 00:27:27.173 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7222/api/query/execute - null null
+2026-08-31 00:27:27.173 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7222/api/query/execute - null null
+2026-08-31 00:27:27.362 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:27:27.465 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:27:27.477 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:27:27.477 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:27:27.489 +05:30 [INF] HTTP OPTIONS /api/query/execute responded 204 in 18.9237 ms
+2026-08-31 00:27:27.489 +05:30 [INF] HTTP OPTIONS /api/query/execute responded 204 in 138.1948 ms
+2026-08-31 00:27:27.495 +05:30 [INF] HTTP OPTIONS /api/query/execute responded 204 in 18.2320 ms
+2026-08-31 00:27:27.496 +05:30 [INF] HTTP OPTIONS /api/query/execute responded 204 in 19.0045 ms
+2026-08-31 00:27:27.570 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7222/api/query/execute - 204 null null 396.7107ms
+2026-08-31 00:27:27.508 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7222/api/query/execute - 204 null null 336.5478ms
+2026-08-31 00:27:27.542 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/query/execute - application/json 40
+2026-08-31 00:27:27.543 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/query/execute - application/json 40
+2026-08-31 00:27:27.557 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7222/api/query/execute - 204 null null 384.5487ms
+2026-08-31 00:27:27.567 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/query/execute - application/json 50
+2026-08-31 00:27:27.505 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7222/api/query/execute - 204 null null 332.8383ms
+2026-08-31 00:27:27.577 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/query/execute - application/json 50
+2026-08-31 00:27:27.624 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:27:27.628 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:27:27.642 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:27:27.652 +05:30 [INF] CORS policy execution successful.
+2026-08-31 00:27:27.920 +05:30 [INF] [OracleConnectionFactory] Initialised successfully.
+2026-08-31 00:27:29.623 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:27:29.623 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:27:29.623 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:27:29.623 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:27:29.681 +05:30 [INF] Route matched with {action = "Execute", controller = "Query"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Execute(DynamicTransaction.Models.FetchConfig, System.Threading.CancellationToken) on controller JanaticsAdminPortal.API.Controllers.QueryController (JanaticsAdminPortal.API).
+2026-08-31 00:27:29.681 +05:30 [INF] Route matched with {action = "Execute", controller = "Query"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Execute(DynamicTransaction.Models.FetchConfig, System.Threading.CancellationToken) on controller JanaticsAdminPortal.API.Controllers.QueryController (JanaticsAdminPortal.API).
+2026-08-31 00:27:29.683 +05:30 [INF] Route matched with {action = "Execute", controller = "Query"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Execute(DynamicTransaction.Models.FetchConfig, System.Threading.CancellationToken) on controller JanaticsAdminPortal.API.Controllers.QueryController (JanaticsAdminPortal.API).
+2026-08-31 00:27:29.684 +05:30 [INF] Route matched with {action = "Execute", controller = "Query"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Execute(DynamicTransaction.Models.FetchConfig, System.Threading.CancellationToken) on controller JanaticsAdminPortal.API.Controllers.QueryController (JanaticsAdminPortal.API).
+2026-08-31 00:27:30.910 +05:30 [INF] QueryController.Execute START QueryNumber: 101, Parameters: [], Endpoint: /api/query/execute
+2026-08-31 00:27:30.910 +05:30 [INF] QueryController.Execute START QueryNumber: 101, Parameters: [], Endpoint: /api/query/execute
+2026-08-31 00:27:30.910 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-08-31 00:27:30.910 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-08-31 00:27:30.954 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync START. Parameters: [[[]]]
+2026-08-31 00:27:30.954 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync START. Parameters: [[[]]]
+2026-08-31 00:27:30.967 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API) in 1267.0456ms
+2026-08-31 00:27:30.967 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API) in 1268.9305ms
+2026-08-31 00:27:30.970 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:27:30.972 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:27:30.974 +05:30 [INF] HTTP POST /api/query/execute responded 400 in 3321.8240 ms
+2026-08-31 00:27:30.974 +05:30 [INF] HTTP POST /api/query/execute responded 400 in 3332.4379 ms
+2026-08-31 00:27:30.978 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/query/execute - 400 null application/problem+json; charset=utf-8 3400.4656ms
+2026-08-31 00:27:30.980 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/query/execute - 400 null application/problem+json; charset=utf-8 3413.0651ms
+2026-08-31 00:27:31.774 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync SUCCESS. OperationType: SELECT, RowsReturned: 1, DurationMs: 824, Success: true
+2026-08-31 00:27:31.774 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync SUCCESS. OperationType: SELECT, RowsReturned: 1, DurationMs: 824, Success: true
+2026-08-31 00:27:31.778 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync START. Parameters: []
+2026-08-31 00:27:31.778 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync START. Parameters: []
+2026-08-31 00:27:31.868 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync SUCCESS. OperationType: SELECT, RowsReturned: 8, DurationMs: 90, Success: true
+2026-08-31 00:27:31.868 +05:30 [INF] QueryExecutor.ExecuteQueryWithParametersAsync SUCCESS. OperationType: SELECT, RowsReturned: 8, DurationMs: 90, Success: true
+2026-08-31 00:27:31.871 +05:30 [INF] QueryController.Execute SUCCESS QueryNumber: 101, Description: List Modules, OperationType: SELECT, RowsReturned: 8, DurationMs: 963, Success: true
+2026-08-31 00:27:31.872 +05:30 [INF] QueryController.Execute SUCCESS QueryNumber: 101, Description: List Modules, OperationType: SELECT, RowsReturned: 8, DurationMs: 965, Success: true
+2026-08-31 00:27:31.881 +05:30 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`3[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Newtonsoft.Json.Linq.JArray, Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed]]'.
+2026-08-31 00:27:31.881 +05:30 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`3[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Newtonsoft.Json.Linq.JArray, Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed]]'.
+2026-08-31 00:27:31.892 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API) in 2203.6931ms
+2026-08-31 00:27:31.892 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API) in 2201.852ms
+2026-08-31 00:27:31.898 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:27:31.896 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.QueryController.Execute (JanaticsAdminPortal.API)'
+2026-08-31 00:27:31.903 +05:30 [INF] HTTP POST /api/query/execute responded 200 in 4274.8010 ms
+2026-08-31 00:27:31.904 +05:30 [INF] HTTP POST /api/query/execute responded 200 in 4279.5920 ms
+2026-08-31 00:27:31.906 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/query/execute - 200 null application/json; charset=utf-8 4363.348ms
+2026-08-31 00:27:31.909 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/query/execute - 200 null application/json; charset=utf-8 4366.7594ms

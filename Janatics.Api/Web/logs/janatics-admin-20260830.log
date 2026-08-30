@@ -1,0 +1,77 @@
+2026-08-30 23:22:52.911 +05:30 [INF] User profile is available. Using 'C:\Users\1409\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-08-30 23:22:53.670 +05:30 [INF] Now listening on: https://localhost:7222
+2026-08-30 23:22:53.672 +05:30 [INF] Now listening on: http://localhost:5202
+2026-08-30 23:22:53.806 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-08-30 23:22:53.813 +05:30 [INF] Hosting environment: Development
+2026-08-30 23:22:53.815 +05:30 [INF] Content root path: D:\UnifiedPortal\Docs\MIgrate_api
+2026-08-30 23:22:55.693 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger - null null
+2026-08-30 23:22:56.463 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger - 301 null null 786.9117ms
+2026-08-30 23:22:56.480 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/index.html - null null
+2026-08-30 23:22:56.668 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/index.html - 200 null text/html;charset=utf-8 188.5327ms
+2026-08-30 23:22:56.704 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/swagger-ui.css - null null
+2026-08-30 23:22:56.712 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/_vs/browserLink - null null
+2026-08-30 23:22:56.714 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/swagger-ui-bundle.js - null null
+2026-08-30 23:22:56.716 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/swagger-ui-standalone-preset.js - null null
+2026-08-30 23:22:56.717 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/_framework/aspnetcore-browser-refresh.js - null null
+2026-08-30 23:22:56.786 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/_framework/aspnetcore-browser-refresh.js - 200 14951 application/javascript; charset=utf-8 69.8268ms
+2026-08-30 23:22:56.788 +05:30 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2026-08-30 23:22:56.789 +05:30 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2026-08-30 23:22:56.845 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/swagger-ui.css - 200 152034 text/css 142.0733ms
+2026-08-30 23:22:56.876 +05:30 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2026-08-30 23:22:56.878 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/swagger-ui-standalone-preset.js - 200 230280 text/javascript 163.1809ms
+2026-08-30 23:22:56.886 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/swagger-ui-bundle.js - 200 1456926 text/javascript 174.0847ms
+2026-08-30 23:22:56.941 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/_vs/browserLink - 200 null text/javascript; charset=UTF-8 229.0478ms
+2026-08-30 23:22:57.156 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/v1/swagger.json - null null
+2026-08-30 23:22:57.220 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/favicon-32x32.png - null null
+2026-08-30 23:22:57.240 +05:30 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2026-08-30 23:22:57.264 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 107.23ms
+2026-08-30 23:22:57.325 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/favicon-32x32.png - 200 628 image/png 105.136ms
+2026-08-30 23:23:21.339 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/auth/login - application/json 54
+2026-08-30 23:23:21.372 +05:30 [INF] CORS policy execution successful.
+2026-08-30 23:23:21.478 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.AuthController.Login (JanaticsAdminPortal.API)'
+2026-08-30 23:23:21.533 +05:30 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(JanaticsAdminPortal.API.Models.UserLoginRequest) on controller JanaticsAdminPortal.API.Controllers.AuthController (JanaticsAdminPortal.API).
+2026-08-30 23:23:21.732 +05:30 [INF] [OracleConnectionFactory] Initialised successfully.
+2026-08-30 23:23:24.565 +05:30 [INF] Executing OkObjectResult, writing value of type 'JanaticsAdminPortal.API.Models.LoginResponse'.
+2026-08-30 23:23:24.592 +05:30 [INF] Executed action JanaticsAdminPortal.API.Controllers.AuthController.Login (JanaticsAdminPortal.API) in 3042.5339ms
+2026-08-30 23:23:24.595 +05:30 [INF] Executed endpoint 'JanaticsAdminPortal.API.Controllers.AuthController.Login (JanaticsAdminPortal.API)'
+2026-08-30 23:23:24.601 +05:30 [INF] HTTP POST /api/auth/login responded 200 in 3235.4899 ms
+2026-08-30 23:23:24.606 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7222/api/auth/login - 200 null application/json; charset=utf-8 3267.2637ms
+2026-08-30 23:31:43.983 +05:30 [INF] User profile is available. Using 'C:\Users\1409\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-08-30 23:31:44.603 +05:30 [INF] Now listening on: https://localhost:7222
+2026-08-30 23:31:44.606 +05:30 [INF] Now listening on: http://localhost:5202
+2026-08-30 23:31:45.006 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-08-30 23:31:45.008 +05:30 [INF] Hosting environment: Development
+2026-08-30 23:31:45.013 +05:30 [INF] Content root path: D:\UnifiedPortal\Docs\MIgrate_api
+2026-08-30 23:31:46.144 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/index.html - null null
+2026-08-30 23:31:46.764 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/index.html - 200 null text/html;charset=utf-8 630.6907ms
+2026-08-30 23:31:46.817 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/_framework/aspnetcore-browser-refresh.js - null null
+2026-08-30 23:31:46.818 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/_vs/browserLink - null null
+2026-08-30 23:31:46.874 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/_framework/aspnetcore-browser-refresh.js - 200 14951 application/javascript; charset=utf-8 56.4844ms
+2026-08-30 23:31:46.999 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/_vs/browserLink - 200 null text/javascript; charset=UTF-8 181.4753ms
+2026-08-30 23:31:47.295 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/v1/swagger.json - null null
+2026-08-30 23:31:47.403 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 108.2431ms
+2026-08-30 23:31:56.665 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/index.html - null null
+2026-08-30 23:31:56.690 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/index.html - 200 null text/html;charset=utf-8 25.4795ms
+2026-08-30 23:31:56.833 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/swagger-ui.css - null null
+2026-08-30 23:31:56.838 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/swagger-ui-standalone-preset.js - null null
+2026-08-30 23:31:56.839 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/_framework/aspnetcore-browser-refresh.js - null null
+2026-08-30 23:31:56.838 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/swagger-ui-bundle.js - null null
+2026-08-30 23:31:56.840 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/_vs/browserLink - null null
+2026-08-30 23:31:56.849 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/_framework/aspnetcore-browser-refresh.js - 200 14951 application/javascript; charset=utf-8 9.8897ms
+2026-08-30 23:31:56.915 +05:30 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2026-08-30 23:31:56.916 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/_vs/browserLink - 200 null text/javascript; charset=UTF-8 76.0431ms
+2026-08-30 23:31:56.921 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/swagger-ui.css - 200 152034 text/css 88.1141ms
+2026-08-30 23:31:56.915 +05:30 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2026-08-30 23:31:56.941 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/swagger-ui-standalone-preset.js - 200 230280 text/javascript 103.2284ms
+2026-08-30 23:31:56.973 +05:30 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2026-08-30 23:31:56.977 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/swagger-ui-bundle.js - 200 1456926 text/javascript 138.9644ms
+2026-08-30 23:31:57.286 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/v1/swagger.json - null null
+2026-08-30 23:31:57.332 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 46.013ms
+2026-08-30 23:31:57.348 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7222/swagger/favicon-32x32.png - null null
+2026-08-30 23:31:57.359 +05:30 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2026-08-30 23:31:57.361 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7222/swagger/favicon-32x32.png - 200 628 image/png 13.743ms
+2026-08-30 23:32:10.455 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7222/api/auth/login - application/json 54
+2026-08-30 23:32:10.475 +05:30 [INF] CORS policy execution successful.
+2026-08-30 23:32:10.610 +05:30 [INF] Executing endpoint 'JanaticsAdminPortal.API.Controllers.AuthController.Login (JanaticsAdminPortal.API)'
+2026-08-30 23:32:10.699 +05:30 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(JanaticsAdminPortal.API.Models.UserLoginRequest) on controller JanaticsAdminPortal.API.Controllers.AuthController (JanaticsAdminPortal.API).
+2026-08-30 23:32:10.891 +05:30 [INF] [OracleConnectionFactory] Initialised successfully.
